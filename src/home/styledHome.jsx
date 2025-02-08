@@ -155,3 +155,14 @@ export const Banner = styled.div`
   background-position: center;
   background-repeat: no-repeat;
 `;
+
+// 플로깅 코스 장소
+export const PloggingLocation = styled.div`
+  color: #aaa;
+  font-family: "Pretendard Variable";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-top: -10px;
+`;

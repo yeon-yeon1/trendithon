@@ -16,12 +16,36 @@ const Home = () => {
   ];
 
   const courseImages = [
-    { src: "/images/ExMap1.svg", region: "청계천 플로깅" },
-    { src: "/images/ExMap2.svg", region: "지역환경축제" },
-    { src: "/images/ExMap1.svg", region: "청계천 플로깅" },
-    { src: "/images/ExMap2.svg", region: "지역환경축제" },
-    { src: "/images/ExMap1.svg", region: "청계천 플로깅" },
-    { src: "/images/ExMap2.svg", region: "지역환경축제" },
+    {
+      src: "/images/ExMap1.svg",
+      name: "청계천 플로깅",
+      region: "서울시 종로구",
+    },
+    {
+      src: "/images/ExMap2.svg",
+      name: "지역환경축제",
+      region: "서울시 서초구",
+    },
+    {
+      src: "/images/ExMap1.svg",
+      name: "청계천 플로깅",
+      region: "서울시 서초구",
+    },
+    {
+      src: "/images/ExMap2.svg",
+      name: "지역환경축제",
+      region: "서울시 서초구",
+    },
+    {
+      src: "/images/ExMap1.svg",
+      name: "청계천 플로깅",
+      region: "서울시 서초구",
+    },
+    {
+      src: "/images/ExMap2.svg",
+      name: "지역환경축제",
+      region: "서울시 서초구",
+    },
   ];
 
   const dogImages = [
@@ -34,7 +58,7 @@ const Home = () => {
     infinite: false, // 처음부터 왼쪽 카드가 보이게 설정
     arrows: true,
     speed: 500,
-    slidesToShow: 1.4, // 왼쪽 카드가 더 보이게 설정
+    slidesToShow: 1.45, // 왼쪽 카드가 더 보이게 설정
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
@@ -71,8 +95,9 @@ const Home = () => {
                   alt={`course-${index}`}
                 />
                 <H.RegionText style={{ color: "black" }}>
-                  {course.region}
+                  {course.name}
                 </H.RegionText>
+                <H.PloggingLocation>{course.region}</H.PloggingLocation>
               </H.DogCard>
             ))}
           </Slider>
