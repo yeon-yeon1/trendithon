@@ -18,6 +18,10 @@ const Home = () => {
   const courseImages = [
     { src: "/images/ExMap1.svg", region: "청계천 플로깅" },
     { src: "/images/ExMap2.svg", region: "지역환경축제" },
+    { src: "/images/ExMap1.svg", region: "청계천 플로깅" },
+    { src: "/images/ExMap2.svg", region: "지역환경축제" },
+    { src: "/images/ExMap1.svg", region: "청계천 플로깅" },
+    { src: "/images/ExMap2.svg", region: "지역환경축제" },
   ];
 
   const dogImages = [
@@ -27,13 +31,14 @@ const Home = () => {
   ];
 
   const settingsCourse = {
-    infinite: true,
-    arrows: false,
+    infinite: false, // 처음부터 왼쪽 카드가 보이게 설정
+    arrows: true,
     speed: 500,
-    slidesToShow: 1.7, // 한 번에 1개씩 표시
+    slidesToShow: 1.4, // 왼쪽 카드가 더 보이게 설정
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
+    centerMode: false, // 중앙 정렬 해제
   };
 
   const settingsDog = {
@@ -56,7 +61,7 @@ const Home = () => {
           이달의
           <H.BoldText> 플로깅 추천 코스</H.BoldText>
         </H.Text>
-        <H.CarouselWrapper>
+        <H.CarouselWrapper className="plogging-carousel">
           <Slider {...settingsCourse}>
             {courseImages.map((course, index) => (
               <H.DogCard key={index}>
@@ -72,7 +77,7 @@ const Home = () => {
             ))}
           </Slider>
         </H.CarouselWrapper>
-        <H.CarouselContainer>
+        <H.CarouselContainer style={{ marginTop: "10px" }}>
           <H.Text>
             이웃
             <H.BoldText> 멍로깅</H.BoldText>

@@ -109,6 +109,11 @@ export const BoldText = styled.span`
 // 캐러셀 컨테이너
 export const CarouselWrapper = styled.div`
   padding: 0 20px;
+
+  &.plogging-carousel .slick-track {
+    display: flex;
+    gap: 10px; /* 카드 간격 조정 */
+  }
 `;
 
 // 개별 카드 스타일
