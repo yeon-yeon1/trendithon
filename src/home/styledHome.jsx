@@ -27,6 +27,7 @@ export const Footer = styled.footer`
   border-top-right-radius: 20px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   top: 95%;
+  z-index: 2; // ✅ 검색 모달창 때문에 추가(mapStyled.js)
 `;
 
 // 네비게이션 아이템 (고정)
@@ -42,7 +43,20 @@ export const NavItem = styled.div`
 `;
 
 // 아이콘 (고정)
-export const Icon = styled.img`
+// export const Icon = styled.img`
+//   width: 56px;
+//   height: 55px;
+//   margin-bottom: 5px;
+
+//   &:hover {
+//     content: url(${(props) => props.hoverSrc});
+//   }
+// `;
+
+// ✅ DOM으로 전달될 불필요한 props(`hoverSrc`)를 필터링 (hoverSrc 경고 문구가 계속 떠서 수정)
+const Icon = styled.img.withConfig({
+  shouldForwardProp: (prop) => prop !== "hoverSrc",
+})`
   width: 56px;
   height: 55px;
   margin-bottom: 5px;
@@ -54,34 +68,14 @@ export const Icon = styled.img`
 
 // 아이콘 컴포넌트 (고정, 개별 아이콘)
 export const HomeIcon = (props) => (
-  <Icon
-    {...props}
-    src="/images/HomeIcon.svg"
-    alt="Home"
-    hoverSrc="/images/OnHomeIcon.svg"
-  />
+  <Icon {...props} src="/images/HomeIcon.svg" alt="Home" hoverSrc="/images/OnHomeIcon.svg" />
 );
 export const CommuIcon = (props) => (
-  <Icon
-    {...props}
-    src="/images/CommuIcon.svg"
-    alt="Community"
-    hoverSrc="/images/OnCommuIcon.svg"
-  />
+  <Icon {...props} src="/images/CommuIcon.svg" alt="Community" hoverSrc="/images/OnCommuIcon.svg" />
 );
 export const FlagIcon = (props) => (
-  <Icon
-    {...props}
-    src="/images/FlagIcon.svg"
-    alt="Plogging"
-    hoverSrc="/images/OnFlagIcon.svg"
-  />
+  <Icon {...props} src="/images/FlagIcon.svg" alt="Plogging" hoverSrc="/images/OnFlagIcon.svg" />
 );
 export const MyPageIcon = (props) => (
-  <Icon
-    {...props}
-    src="/images/MyPageIcon.svg"
-    alt="My Page"
-    hoverSrc="/images/OnMyPageIcon.svg"
-  />
+  <Icon {...props} src="/images/MyPageIcon.svg" alt="My Page" hoverSrc="/images/OnMyPageIcon.svg" />
 );
