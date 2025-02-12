@@ -121,15 +121,16 @@ const Verification = () => {
 
     console.log("🚀 인증 데이터:", JSON.stringify(verificationData, null, 2));
 
-    // TODO: 백엔드 연동 시 API 요청
-    // fetch("/api/verification", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(verificationData),
-    // })
-    // .then(response => response.json())
-    // .then(data => console.log("✅ 인증 완료:", data))
-    // .catch(error => console.error("🚨 인증 실패:", error));
+    // ✅ 기존 로컬 스토리지 데이터 가져오기
+    const existingData = JSON.parse(localStorage.getItem("verificationData")) || [];
+
+    // ✅ 새 데이터 추가
+    const updatedData = [...existingData, verificationData];
+
+    // ✅ 로컬 스토리지에 저장
+    localStorage.setItem("verificationData", JSON.stringify(updatedData));
+
+    console.log("✅ 데이터 저장 완료!");
 
     // ✅ "감사합니다" 화면을 띄움
     setShowThankYou(true);

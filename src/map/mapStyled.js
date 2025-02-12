@@ -38,10 +38,16 @@ export const TopMessage = styled.div`
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   width: 60%;
   display: flex;
-  justify-content: ${({ pageState }) => (pageState === "setStartPoint" ? "auto" : "center")};
+  justify-content: ${({ pageState }) =>
+    pageState === "setStartPoint" || pageState === "verifying" ? "auto" : "center"};
   text-align: center;
   align-items: center;
   gap: 38px;
+
+  span {
+    margin-left: 15px;
+    margin-top: 2px;
+  }
 `;
 
 // ✅ 버튼 스타일
@@ -49,6 +55,9 @@ export const Button = styled.button`
   width: 80%;
   max-width: 300px;
   padding: 15px;
+
+  background-color: ${({ disabled }) => (disabled ? "##678a89" : "#7adcdb")}; // ✅ 비활성화: 회색, 활성화: 초록색
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")}; // ✅ 비활성화: 클릭 불가 커서
   background-color: #7adcdb;
   color: white;
   font-size: 16px;

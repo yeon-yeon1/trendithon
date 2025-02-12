@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import * as M from "../mapStyled.js";
 import { useLocation } from "react-router-dom"; // ✅ 현재 URL 경로 가져오기
+import useGeolocation from "../hooks/useGeolocation"; // ✅ 사용자 위치 추적 훅 가져오기
+import useFakeGeolocation from "../hooks/useFakeGeolocation"; // ✅ 가짜 위치 데이터 사용
 
 const KAKAO_KEY = process.env.REACT_APP_KAKAO_KEY;
 
 const MapContainer = ({ setMap = null, setCurrentLocation = null, initialPath, markers = [], isVerification }) => {
   const location = useLocation(); // ✅ 현재 페이지의 URL 경로 가져오기
   const [mapInstance, setMapInstance] = useState(null);
+  // const { lat, lng, error } = useGeolocation(); // ✅ 사용자 위치 가져오기
+  const { lat, lng } = useFakeGeolocation(); // ✅ 가짜 위치 데이터 사용
 
   useEffect(() => {
     console.log("🚀 페이지 이동 감지:", location.pathname);

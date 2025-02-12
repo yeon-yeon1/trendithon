@@ -10,22 +10,24 @@ const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel }) => {
   const location = useLocation();
 
   const isPloggingPage = location.pathname === "/plogging";
+  const isAdmin = location.pathname === "/admin";
+  const isAdminDetail = location.pathname.startsWith("/admin/detail/"); // ✅ 관리자 상세 페이지
 
-  // ✅ 페이지 경로에 따라 헤더 텍스트 변경
   const getHeaderTitle = () => {
-    switch (location.pathname) {
-      case "/verification":
-        return "플로깅 인증";
-      case "/guide":
-        return "사진 인증 가이드라인";
-      default:
-        return "";
-    }
+    const path = location.pathname;
+
+    if (path === "/verification") return "플로깅 인증";
+    if (path === "/guide") return "사진 인증 가이드라인";
+    if (path === "/admin") return "관리자 페이지";
+
+    // ✅ `/admin/detail/`로 시작하는 모든 경로에 "관리자 상세 페이지" 제목 표시
+    if (path.startsWith("/admin/detail/")) return "관리자 상세 페이지";
+
+    return "";
   };
 
   return (
-    // <H.Header>
-    <H.Header isPlogging={isPloggingPage}>
+    <H.Header isPlogging={isPloggingPage} isAdmin={isAdmin} isAdminDetail={isAdminDetail}>
       {/* ✅ isPlogging prop 전달 */}
       <H.BackButton onClick={() => (isPloggingPage ? onCancel() : navigate(-1))}>
         <BackIcon width="30" height="30" />
