@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 // 푸터 (=하단바, 고정)
 export const Footer = styled.footer`
-  position: absolute;
+  position: fixed;
   transform: translate(-50%, -50%); /* 중앙 정렬 */
   left: 50%;
   width: 393px;
@@ -26,6 +26,7 @@ export const Footer = styled.footer`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  top: 95%;
 `;
 
 // 네비게이션 아이템 (고정)
