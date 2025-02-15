@@ -102,6 +102,8 @@ export const Button = styled.button`
   font-size: 16px;
   font-weight: bold;
   color: white;
+  width: 165px;
+  gap: 10px;
 
   ${(props) =>
     props.reject &&
@@ -115,7 +117,6 @@ export const Button = styled.button`
       background: #7ADCDB;
     `}
 `;
-
 export const ModalImage = styled.img`
   width: 100%;
   object-fit: cover;

@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header"; //헤더
 import MapContainer from "./components/MapContainer.jsx"; // ✅ 새로 만든 지도 컴포넌트 불러오기
 import useFakeGeolocation from "./hooks/useFakeGeolocation"; // 🔥 1️⃣ 가짜 위치 훅 import
+// import useFakeGeolocation from "./hooks/useGeolocation"; // 🔥 1️⃣ 가짜 위치 훅 import
 
 // svg 파일
 import { ReactComponent as FindIcon } from "../assets/Find.svg";
@@ -75,7 +76,7 @@ const Map = () => {
         const markerPos = marker.getPosition();
         const distance = getDistance(currentLocation.lat, currentLocation.lng, markerPos.getLat(), markerPos.getLng());
 
-        if (distance <= 15) {
+        if (distance <= 25) {
           prevVerifiedMarkers.current.add(index); // ✅ 방문한 마커를 기록
           marker.setMap(null);
           return createNumberedMarker(map, markerPos, prevVerifiedMarkers.current.size - 1, true); // ✅ verifiedMarkers.length 대신 Set 크기 사용
