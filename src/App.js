@@ -1,5 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./home/Home";
+import Login from "./user/Login";
+import Join from "./user/Join";
+import Welcome from "./user/Welcome";
+
 import Map from "./map/map";
 import Verification from "./map/Verification";
 import Guide from "./map/guide";
@@ -15,6 +19,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/home" element={<Home />} />
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/welcome" element={<Welcome />} />
+
           <Route path="/plogging" element={<Map />} />
           <Route path="/verification" element={<Verification />} />
           <Route path="/guide" element={<Guide />} />
