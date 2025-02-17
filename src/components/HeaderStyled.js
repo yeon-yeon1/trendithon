@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Header = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["isPlogging", "isAdmin", "isAdminDetail"].includes(prop),
+  shouldForwardProp: (prop) => !["isPlogging", "isAdmin", "isAdminDetail", "isJoin"].includes(prop),
 })`
   width: 363px;
   display: flex;
@@ -65,6 +65,26 @@ export const Header = styled.div.withConfig({
       gap: 60px;
       padding-left: 15px;
     `}
+
+      ${({ isJoin }) =>
+    isJoin &&
+    `
+    background: #FFFFFF;  
+    box-shadow: none;    
+    border: none;
+    border-bottom: 1px solid #E3E3E3;
+    
+
+    width: 378px;
+    height: 78px;
+    display: flex;
+    top: 0;
+    padding: 0;
+    margin-bottom: 50px;
+    gap: 100px;
+    padding-left: 15px;
+    font-size: 20px;
+  `}
 `;
 
 // ✅ 헤더 (뒤로 가기 버튼 + 제목)
