@@ -95,6 +95,9 @@ const MyPage = () => {
           <S.RecordDate>2024-2-1</S.RecordDate>
           <S.MapImage src="/images/exMap1.svg" alt="Map" />
           <S.RecordTitle>청계천 멍로깅</S.RecordTitle>
+          <S.RecordDate>2024-2-1</S.RecordDate>
+          <S.MapImage src="/images/exMap1.svg" alt="Map" />
+          <S.RecordTitle>청계천 멍로깅</S.RecordTitle>
         </S.MapContainer>
       </S.Container>
 

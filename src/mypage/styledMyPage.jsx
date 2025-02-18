@@ -163,6 +163,16 @@ export const RecordCard = styled.div`
   width: 90%;
 `;
 
+// MapContainer 스타일 수정
+export const MapContainer = styled.div`
+  width: 363px;
+  background: #e9f3f3;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 15px; // 여백을 주어 요소들이 아래로 쌓일 수 있도록
+`;
+
+// RecordDate, MapImage, RecordTitle 수정
 export const RecordDate = styled.span`
   color: #aaa;
   font-family: "Pretendard Variable";
@@ -170,38 +180,28 @@ export const RecordDate = styled.span`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-left: 80px;
-  margin-top: 20px;
-  position: absolute;
+  margin-left: 20px;
+  margin-bottom: 10px; // 아래로 쌓이도록 여백 추가
 `;
 
 export const MapImage = styled.img`
   width: 359px;
   height: 191px;
-  position: absolute;
-  margin-left: 15px;
-  margin-top: 40px;
-  cursor: pointer;
-`;
-
-export const MapContainer = styled.div`
-  width: 393px;
-  height: 411px;
-  background: #e9f3f3;
   flex-shrink: 0;
+  margin-bottom: 10px; // 아래로 쌓이도록 여백 추가
+  cursor: pointer;
 `;
 
 export const RecordTitle = styled.h3`
   color: #7adcdb;
-  font-family: Inter;
+  font-family: "Pretendard Variable";
   font-size: 15px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  font-family: "Pretendard Variable";
-  margin-top: 240px;
-  margin-left: 70px;
-  position: absolute;
+  margin-bottom: 20px; // 아래로 쌓이도록 여백 추가
+  margin-left: 10px;
+  margin-top: -5px;
 `;
 
 export const BoldText = styled.span`
