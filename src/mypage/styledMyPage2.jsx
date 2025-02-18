@@ -175,20 +175,24 @@ export const RecordDate = styled.span`
   position: absolute;
 `;
 
-export const MapImage = styled.img`
-  width: 359px;
-  height: 191px;
-  position: absolute;
-  margin-left: 15px;
-  margin-top: 40px;
-  cursor: pointer;
-`;
-
 export const MapContainer = styled.div`
-  width: 393px;
-  height: 411px;
+  width: 373px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px; /* 가로 간격은 그대로 두고 세로 간격을 줄이기 위해 gap을 0으로 설정 */
   background: #e9f3f3;
   flex-shrink: 0;
+  padding: 10px;
+`;
+
+export const MapImage = styled.img`
+  margin-left: 9px;
+  width: 45%; /* 한 줄에 두 개씩 배치 */
+  height: 130px; /* 이미지 크기 조정 */
+  margin-top: 20px; /* 세로 간격을 좁히기 위해 margin-top을 음수로 설정 */
+  margin-bottom: 10px; /* 세로 간격을 좁히기 위해 margin-bottom을 음수로 설정 */
+  flex-shrink: 0;
+  cursor: pointer;
 `;
 
 export const RecordTitle = styled.h3`

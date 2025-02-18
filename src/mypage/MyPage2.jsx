@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as S from "./styledMyPage";
+import * as S from "./styledMyPage2";
 
-const MyPage = () => {
+const MyPage2 = () => {
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false); // 버튼 리스트의 표시 여부
   const [profileImg, setProfileImg] = useState("/images/defaultPet.svg"); // 프로필 이미지 상태
@@ -11,8 +11,8 @@ const MyPage = () => {
     setIsExpanded((prev) => !prev); // 클릭할 때마다 토글
   };
 
-  const go2 = () => {
-    navigate(`/mypage2`);
+  const go1 = () => {
+    navigate(`/mypage`);
   };
 
   const handleFileChange = (event) => {
@@ -81,20 +81,21 @@ const MyPage = () => {
         )}
 
         <S.Tabs>
-          <S.Tab selected>
+          <S.Tab onClick={go1}>
             나의
             <S.BoldText> 멍로깅 기록</S.BoldText>
           </S.Tab>
-          <S.Tab style={{ marginLeft: "-60px" }} onClick={go2}>
+          <S.Tab style={{ marginLeft: "-60px" }} selected>
             커뮤니티
             <S.BoldText> 작성 기록</S.BoldText>
           </S.Tab>
         </S.Tabs>
 
         <S.MapContainer>
-          <S.RecordDate>2024-2-1</S.RecordDate>
-          <S.MapImage src="/images/exMap1.svg" alt="Map" />
-          <S.RecordTitle>청계천 멍로깅</S.RecordTitle>
+          <S.MapImage src="/images/dog1.svg" alt="Map" />
+          <S.MapImage src="/images/dog2.svg" alt="Map" />
+          <S.MapImage src="/images/dog1.svg" alt="Map" />
+          <S.MapImage src="/images/dog2.svg" alt="Map" />
         </S.MapContainer>
       </S.Container>
 
@@ -109,4 +110,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default MyPage2;
