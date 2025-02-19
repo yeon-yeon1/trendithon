@@ -35,7 +35,12 @@ export const InputBox = styled.input`
   background: #fff;
   border-radius: 50px;
   border: 1px solid #fff;
-  margin-top: ${(props) => props.inputBoxMt};
+
+  // 밑 코드가 사파리 이용할 때(맥에서만 문제되는 거 같음) warning이 떠서 일단 주석 처리 해놓고 다른 코드 썼는데 나중에 다시 바꿔도 됨.
+  // 만약에 바꾼다면 jsx 파일 들어가서 $inputBoxMt에서 $ 없애야 함.
+  // margin-top: ${(props) => props.inputBoxMt};
+
+  margin-top: ${(props) => props.$inputBoxMt || "0px"}; // ✅ $ 접두어 사용
   margin-left: 25px;
   padding-left: 30px;
   //   font-family: "Pretendard Variable";

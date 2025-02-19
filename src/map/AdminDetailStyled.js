@@ -81,13 +81,6 @@ export const MapContainer = styled.div`
   margin: 10px 25px 0 25px;
 `;
 
-export const ImagePreview = styled.img`
-  height: 240px;
-  object-fit: cover;
-  border-radius: 5px;
-  margin: 10px 25px 0 25px;
-`;
-
 export const ButtonContainer = styled.div`
   margin: 20px 25px;
   display: flex;
@@ -165,4 +158,24 @@ export const CloseButton = styled.button`
   font-size: 24px;
   color: white;
   cursor: pointer;
+`;
+
+export const ImageCarousel = styled.div`
+  display: flex;
+  height: 240px;
+  gap: 10px;
+  overflow-x: auto; /* ✅ 가로 스크롤 */
+  padding: 10px 0;
+  white-space: nowrap; /* ✅ 이미지가 한 줄에 나오도록 설정 */
+  scroll-snap-type: x mandatory; /* ✅ 스크롤 시 이미지 단위로 이동 */
+  margin: 10px 25px 0 25px;
+`;
+
+export const ImagePreview = styled.img`
+  width: 200px; /* ✅ 이미지 크기 고정 */
+  border-radius: 12px;
+  object-fit: cover;
+  cursor: pointer;
+  scroll-snap-align: start; /* ✅ 스크롤 시 이미지 시작점에 맞춤 */
+  flex-shrink: 0; /* ✅ 이미지가 축소되지 않도록 고정 */
 `;

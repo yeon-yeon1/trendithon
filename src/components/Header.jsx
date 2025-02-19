@@ -9,7 +9,7 @@ const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isPloggingPage = location.pathname === "/plogging";
+  const isPlogging = location.pathname === "/plogging";
   const isAdmin = location.pathname === "/admin";
   const isAdminDetail = location.pathname.startsWith("/admin/detail/"); // ✅ 관리자 상세 페이지
   const isJoin = location.pathname === "/join";
@@ -29,13 +29,24 @@ const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel }) => {
   };
 
   return (
-    <H.Header isPlogging={isPloggingPage} isAdmin={isAdmin} isAdminDetail={isAdminDetail} isJoin={isJoin}>
+    <H.Header isPlogging={isPlogging} isAdmin={isAdmin} isAdminDetail={isAdminDetail} isJoin={isJoin}>
       {/* ✅ isPlogging prop 전달 */}
-      <H.BackButton onClick={() => (isPloggingPage ? onCancel() : navigate(-1))}>
+      <H.BackButton
+        isAdmin={isAdmin}
+        onClick={() => {
+          if (isPlogging) {
+            onCancel();
+          } else if (isJoin) {
+            navigate("/login");
+          } else {
+            navigate(-1);
+          }
+        }}
+      >
         <BackIcon width="30" height="30" />
       </H.BackButton>
       {/* ✅ /plogging 페이지에서는 검색창과 검색 버튼만 표시 */}
-      {isPloggingPage ? (
+      {isPlogging ? (
         <>
           <M.SearchInput
             type="text"

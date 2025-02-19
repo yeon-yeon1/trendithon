@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import ModalBackground from "../assets/ModalImg.png";
 
 // ✅ 전체 컨테이너 스타일
 export const Container = styled.div`
@@ -66,7 +67,7 @@ export const Button = styled.button`
   border-radius: 10px;
   cursor: pointer;
   position: absolute;
-  bottom: 130px;
+  bottom: 165px;
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -262,4 +263,122 @@ export const SaveButton = styled.button`
   &:hover {
     background-color: #5dc3c1;
   }
+`;
+
+//Pagestate === marking일 때 나오는 모달창
+
+export const Backdrop2 = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalContainer = styled.div`
+  background-image: url(${ModalBackground});
+  background-size: cover;
+  background-position: center;
+
+  width: 280px;
+  padding: 20px;
+  position: relative;
+  margin-top: 160px;
+
+  border-radius: 10px;
+  border: 20px solid #6ad0cf;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    z-index: 1;
+  }
+
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+`;
+
+export const ModalTitle = styled.h2`
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-align: center;
+  margin-bottom: 0;
+`;
+
+export const ModalExtraText = styled.p`
+  color: #6ad0cf;
+  // font-family: "Noto Sans KR";
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: 23px;
+  margin-bottom: 0;
+  margin-top: 1px;
+`;
+
+export const ModalText = styled.p`
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+`;
+
+export const ModalHighlight = styled.p`
+  font-size: 12px;
+  font-weight: 700;
+  color: #6ad0cf;
+  margin-top: 2px;
+  margin-bottom: 8px;
+  text-align: center;
+`;
+
+export const GuideButton = styled.button`
+  width: 75px;
+  height: 23px;
+  color: #6ad0cf;
+  font-size: 11px;
+  font-weight: bold;
+  margin-top: 25px;
+  margin-left: 215px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.31) 67.67%, rgba(122, 220, 219, 0.31) 100%);
+`;
+
+export const ModalGuide = styled.p`
+  font-size: 12px;
+  color: #f9957f;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 0;
+`;
+
+export const ModalCloseButton = styled.button`
+  position: absolute;
+  // top: 8px;
+  // right: 12px;
+  top: -20px;
+  right: -23px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
 `;

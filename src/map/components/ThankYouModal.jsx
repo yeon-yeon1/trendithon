@@ -18,9 +18,9 @@ const ThankYouModal = ({ onClose }) => {
         <DnEIcon width="284" height="245" />
         <ThankYouText>감사합니다</ThankYouText>
         <SubText>
-          인증 절차를 걸쳐 추후에
+          인증 절차를 걸쳐 <span>100P</span>가 지급됩니다.
           <br />
-          마이페이지 기록에 업로드 됩니다.
+          마이페이지에서 확인해 주세요.
         </SubText>
       </ModalContent>
     </ModalOverlay>
@@ -68,4 +68,10 @@ const SubText = styled.p`
   color: white;
   font-size: 15px;
   margin-top: 10px;
+  line-height: 25px;
+
+  span {
+    font-weight: 800;
+    font-size: 17px;
+  }
 `;

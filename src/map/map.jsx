@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as M from "../map/mapStyled.js";
+import * as V from "../map/VerificationStyled.js";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header"; //헤더
 import MapContainer from "./components/MapContainer.jsx"; // ✅ 새로 만든 지도 컴포넌트 불러오기
-import useFakeGeolocation from "./hooks/useFakeGeolocation"; // 🔥 1️⃣ 가짜 위치 훅 import
-// import useFakeGeolocation from "./hooks/useGeolocation"; // 🔥 1️⃣ 가짜 위치 훅 import
+import useFakeGeolocation from "./hooks/useFakeGeolocation"; // 🔥 가짜 위치 훅 import
+// import useFakeGeolocation from "./hooks/useGeolocation"; // 🔥 진짜 위치 훅 import
 
 // svg 파일
 import { ReactComponent as FindIcon } from "../assets/Find.svg";
 import { ReactComponent as BackIcon } from "../assets/Back.svg";
+import { ReactComponent as RightArrowIcon } from "../assets/RightArrow.svg";
+import CloseIcon from "../assets/ModalClose.svg";
 import LocationIcon from "../assets/Location.svg";
 import locationMarkerImg from "../assets/LocationMarker.svg"; // ✅ 사용자 위치를 표시할 이미지
 
@@ -24,28 +27,27 @@ const Map = () => {
   const [startPoint, setStartPoint] = useState(null); // 출발지 저장
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false); // 하단 모달
   const [courseName, setCourseName] = useState(""); // 플로깅 코스 이름 입력 값
-  const [verifiedMarkers, setVerifiedMarkers] = useState([]); // 🔥 2️⃣ 방문 인증된 마커 리스트 추가
   const navigate = useNavigate(); // ✅ 경로 이동
 
-  // 🔥 3️⃣ 가짜 위치 훅 사용 (verifying 상태일 때만 적용)
+  // 🔥 위치 훅 사용 (verifying 상태일 때만 적용)
   const fakeLocation = useFakeGeolocation(pageState === "verifying");
   const [currentLocation, setCurrentLocation] = useState(null);
   const prevVerifiedMarkers = useRef(new Set()); // ✅ Set 사용하면 중복 제거 가능
-  const currentLocationMarker = useRef(null); // ✅1️⃣ 현재 위치 마커를 useRef로 관리
+  const currentLocationMarker = useRef(null); // ✅ 현재 위치 마커를 useRef로 관리
 
-  // 🔥 4️⃣ pageState가 verifying일 때 가짜 위치 적용
+  // 🔥 pageState가 verifying일 때 위치 적용
   useEffect(() => {
     if (pageState === "verifying") {
       setCurrentLocation(fakeLocation);
     }
   }, [fakeLocation, pageState]);
 
-  // ✅1️⃣ 현재 위치 마커를 실시간으로 이동하도록 수정
+  // ✅ 현재 위치 마커를 실시간으로 이동하도록 수정
   useEffect(() => {
     if (!map || !currentLocation) return;
 
     if (!currentLocationMarker.current) {
-      // ✅1️⃣ 처음 실행될 때 현재 위치 마커 생성
+      // ✅ 처음 실행될 때 현재 위치 마커 생성
       const imageSize = new window.kakao.maps.Size(30, 30); // 이미지 크기 조절
       const imageOption = { offset: new window.kakao.maps.Point(20, 20) }; // 중심 조정
       const markerImage = new window.kakao.maps.MarkerImage(locationMarkerImg, imageSize, imageOption);
@@ -56,30 +58,28 @@ const Map = () => {
         image: markerImage,
       });
     } else {
-      // ✅1️⃣ 위치가 변경되면 기존 마커의 위치만 업데이트 (새 마커를 생성하지 않음)
+      // ✅ 위치가 변경되면 기존 마커의 위치만 업데이트 (새 마커를 생성하지 않음)
       currentLocationMarker.current.setPosition(new window.kakao.maps.LatLng(currentLocation.lat, currentLocation.lng));
     }
 
-    // ✅1️⃣ 지도 중심을 현재 위치로 이동
+    // ✅ 지도 중심을 현재 위치로 이동
     map.setCenter(new window.kakao.maps.LatLng(currentLocation.lat, currentLocation.lng));
   }, [currentLocation, map]);
 
-  // 👌🏻1️⃣ 마커 방문 시 색상 변경 & 중복 추가 방지
+  // 👌🏻 마커 방문 시 색상 변경 & 중복 추가 방지
 
   useEffect(() => {
     if (pageState !== "verifying" || !currentLocation || !markers.length) return;
 
     setMarkers((prevMarkers) => {
       return prevMarkers.map((marker, index) => {
-        // if (prevVerifiedMarkers.current.has(index)) return marker; // ✅ 방문한 마커는 재처리 안 함
-
         const markerPos = marker.getPosition();
         const distance = getDistance(currentLocation.lat, currentLocation.lng, markerPos.getLat(), markerPos.getLng());
 
         if (distance <= 25) {
           prevVerifiedMarkers.current.add(index); // ✅ 방문한 마커를 기록
           marker.setMap(null);
-          return createNumberedMarker(map, markerPos, prevVerifiedMarkers.current.size - 1, true); // ✅ verifiedMarkers.length 대신 Set 크기 사용
+          return createNumberedMarker(map, markerPos, prevVerifiedMarkers.current.size - 1, true);
         }
 
         return marker;
@@ -87,7 +87,7 @@ const Map = () => {
     });
   }, [currentLocation, pageState]);
 
-  // 💕 2️⃣ 수정된 createNumberedMarker 함수 (방문 시 색 변경)
+  // 💕 수정된 createNumberedMarker 함수 (방문 시 색 변경)
   const createNumberedMarker = (map, position, index, isVerified) => {
     const markerColor = isVerified ? "#F9957F" : "#7ADCDB"; // 방문한 마커는 빨간색, 방문 전은 기본색
     const boxShadowColor = isVerified ? "#F9957F" : "#D1FFD8";
@@ -104,7 +104,7 @@ const Map = () => {
         border-radius: 50%;
         box-shadow: 0 2px 13px ${boxShadowColor};
         border: 4px solid ${markerColor};
-        transition: "background-color 0.3s ease", // ✅ 부드러운 색상 변경 효과
+        transition: "background-color 0.3s ease", // 부드러운 색상 변경 효과
       ">
         ${index + 1}
       </div>
@@ -120,7 +120,7 @@ const Map = () => {
     return markerOverlay;
   };
 
-  // 💕 3️⃣ 마커 추가할 때 중복 추가 방지
+  // 마커 추가할 때 중복 추가 방지
   useEffect(() => {
     if (!map) return;
 
@@ -153,7 +153,7 @@ const Map = () => {
     };
   }, [map, pageState]);
 
-  // 🔥 6️⃣ 거리 계산 함수 (Haversine 공식 사용)
+  // 거리 계산 함수 (Haversine 공식 사용) - gpt 긁어옴...
   const getDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371e3; // 지구 반지름 (미터)
     const φ1 = (lat1 * Math.PI) / 180;
@@ -424,8 +424,26 @@ const Map = () => {
         {pageState === "initial" && <M.Button onClick={handleStartPlogging}>{getButtonLabel()}</M.Button>}
         {pageState === "setStartPoint" && <M.Button onClick={handleSetStartPoint}>{getButtonLabel()}</M.Button>}
         {pageState === "marking" && <M.Button onClick={handleStartVerifying}>{getButtonLabel()}</M.Button>}
+        {/* ✅ 플로깅 지점 표시 모달 (pageState가 marking일 때) */}
+        {pageState === "initial" && (
+          <M.Backdrop2>
+            <M.ModalContainer>
+              <M.ModalTitle>지도를 눌러 플로깅 지점을 표시해 주세요</M.ModalTitle>
+              <M.ModalExtraText>(2 지점 이상)</M.ModalExtraText>
+              <M.ModalText>각 지점마다 플로깅 인증사진을 남겨 주세요</M.ModalText>
+              <M.ModalHighlight>플로깅 마지막 지점에서 인증 화면이 뜹니다.</M.ModalHighlight>
+              <M.GuideButton onClick={() => navigate("/guide")}>
+                가이드 확인 <RightArrowIcon width="5" height="9" />
+              </M.GuideButton>
+              <M.ModalGuide>가이드를 꼭 확인해 주세요!!</M.ModalGuide>
+              <M.ModalCloseButton onClick={() => setPageState("setStartPoint")}>
+                <img src={CloseIcon} alt="위치 아이콘" width="16" height="16" />
+              </M.ModalCloseButton>
+            </M.ModalContainer>
+          </M.Backdrop2>
+        )}
 
-        {/* ✅1️⃣ 인증 버튼: 모든 마커 방문해야 활성화 */}
+        {/* ✅ 인증 버튼: 모든 마커 방문해야 활성화 */}
         {pageState === "verifying" && (
           <M.Button
             onClick={handleOpenSaveModal}

@@ -36,11 +36,24 @@ export const JoinTitle = styled.p`
   margin-left: 109px;
 `;
 
+// 밑 코드가 사파리 이용할 때(맥에서만 문제되는 거 같음) warning이 떠서 일단 주석 처리 해놓고 다른 코드 썼는데 나중에 다시 바꿔도 됨
+// 만약에 바꾼다면 jsx 파일 들어가서 $NameTagML여기서 $ 없애야 함.
+
+// export const NameTag = styled.span`
+//   color: ${(props) => (props.color ? props.color : "#000")};
+//   font-size: ${(props) => (props.size ? props.size : "12px")};
+//   margin-left: ${(props) => (props.NameTagML ? props.NameTagML : "0px")};
+//   //   font-family: "Pretendard Variable";
+//   font-style: normal;
+//   font-weight: 700;
+//   line-height: normal;
+// `;
+
 export const NameTag = styled.span`
-  color: ${(props) => (props.color ? props.color : "#000")};
-  font-size: ${(props) => (props.size ? props.size : "12px")};
-  margin-left: ${(props) => (props.NameTagML ? props.NameTagML : "0px")};
-  //   font-family: "Pretendard Variable";
+  color: ${(props) => props.color || "#000"};
+  font-size: ${(props) => props.size || "12px"};
+  margin-left: ${(props) => props.$NameTagML || "0px"}; // ✅ $ 사용
+  // font-family: "Pretendard Variable";
   font-style: normal;
   font-weight: 700;
   line-height: normal;

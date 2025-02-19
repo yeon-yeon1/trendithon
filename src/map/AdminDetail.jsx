@@ -12,6 +12,19 @@ const AdminDetail = () => {
   const navigate = useNavigate();
   const [verificationData, setVerificationData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // ✅ 모달 상태 추가
+  const [uploadedImages, setUploadedImages] = useState([]); // ✅ 이미지 배열 상태
+  const [selectedImage, setSelectedImage] = useState(null); // 클릭한 이미지
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("verificationData")) || [];
+    const selectedData = storedData[id];
+
+    if (selectedData) {
+      setVerificationData(selectedData);
+      setRoutePath(selectedData.path || []);
+      setUploadedImages(selectedData.uploadedImages || []); // ✅ 배열로 받기
+    }
+  }, [id]);
 
   // 👇🏻 여기서부터
   const [markers, setMarkers] = useState([]); // ✅ 지도에 표시할 마커
@@ -161,14 +174,23 @@ const AdminDetail = () => {
             />
           </S.MapContainer>
 
-          {verificationData.uploadedImage ? (
-            <S.ImagePreview
-              src={verificationData.uploadedImage}
-              alt="플로깅 인증"
-              onClick={() => setIsModalOpen(true)}
-            />
+          {/* ✅ 이미지가 여러 개일 경우 */}
+          {uploadedImages.length > 0 ? (
+            <S.ImageCarousel>
+              {uploadedImages.map((image, index) => (
+                <S.ImagePreview
+                  key={index}
+                  src={image}
+                  alt={`플로깅 인증 ${index + 1}`}
+                  onClick={() => {
+                    setSelectedImage(image);
+                    setIsModalOpen(true);
+                  }}
+                />
+              ))}
+            </S.ImageCarousel>
           ) : (
-            <p>플로깅 인증 사진이 없습니다.</p>
+            <p style={{ marginLeft: "110px", marginTop: "40px" }}>플로깅 인증 사진이 없습니다.</p>
           )}
 
           <S.ButtonContainer>
@@ -187,7 +209,7 @@ const AdminDetail = () => {
         <S.ModalOverlay onClick={() => setIsModalOpen(false)}>
           {/* ✅ 클릭하면 닫힘 */}
           <S.ModalContent>
-            <S.ModalImage src={verificationData.uploadedImage} alt="확대된 이미지" />
+            <S.ModalImage src={selectedImage} alt="확대된 이미지" />
           </S.ModalContent>
         </S.ModalOverlay>
       )}

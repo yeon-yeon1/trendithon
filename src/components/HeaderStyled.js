@@ -47,6 +47,7 @@ export const Header = styled.div.withConfig({
       padding: 0;
       gap: 80px;
       padding-left: 15px;
+      justify-content: center;
     `}
 
   ${({ isAdminDetail }) =>
@@ -88,10 +89,18 @@ export const Header = styled.div.withConfig({
 `;
 
 // ✅ 헤더 (뒤로 가기 버튼 + 제목)
-export const BackButton = styled.button`
+export const BackButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => !["isAdmin", "isAdminDetail"].includes(prop), // ✅ isAdminDetail 추가
+})`
   font-size: 20px;
   margin-right: 10px;
   background: none;
   border: none;
   cursor: pointer;
+
+  ${({ isAdmin }) =>
+    isAdmin &&
+    `
+    display: none;  /* ✅ Admin에서는 버튼 숨김 */
+    `}
 `;

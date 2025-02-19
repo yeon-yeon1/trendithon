@@ -22,7 +22,8 @@ const Verification = () => {
 
   // ✅ 가이드 확인 버튼 클릭 시 랜딩 페이지 이동
   const handleGuideClick = () => {
-    navigate("/guide"); // ✅ 가이드 페이지 URL로 이동
+    // navigate("/guide"); // ✅ 가이드 페이지 URL로 이동
+    navigate("/guide", { state: { from: "verification" } });
   };
 
   // ✅ 이전 페이지에서 전달된 데이터 받기 (마킹한 좌표 및 경로 데이터)
@@ -35,7 +36,8 @@ const Verification = () => {
   const [selectedDate, setSelectedDate] = useState(new Date()); // ✅ 오늘 날짜 기본값
   const [routePath, setRoutePath] = useState([]); // ✅ Tmap 길찾기 경로 저장
   const [markers, setMarkers] = useState([]); // ✅ 숫자 마커 저장
-  const [uploadedImage, setUploadedImage] = useState(null); // ✅ 업로드된 이미지 저장
+  // const [uploadedImage, setUploadedImage] = useState(null); // ✅ 업로드된 이미지 저장
+  const [uploadedImages, setUploadedImages] = useState([]); // ✅ 배열로 변경
 
   // ✅ 1. Tmap API를 사용하여 도보 길찾기 경로 가져오기
   useEffect(() => {
@@ -116,7 +118,7 @@ const Verification = () => {
       courseName: courseName || "설정된 코스 없음", // ✅ 플로깅 코스 이름 추가
       date: formatDate(selectedDate),
       path: path, // ✅ 마킹 순서대로 좌표 값들
-      uploadedImage, // ✅ 사용자가 업로드한 이미지
+      uploadedImages, // ✅ 사용자가 업로드한 이미지
     };
 
     console.log("🚀 인증 데이터:", JSON.stringify(verificationData, null, 2));
@@ -170,9 +172,6 @@ const Verification = () => {
         <MapContainer initialPath={routePath.length > 0 ? routePath : path} markers={markers} isVerification={true} />
       </V.MapWrapper>
 
-      {/* 📸 사진 업로드 영역 */}
-      <PhotoUploadComponent setUploadedImage={setUploadedImage} />
-
       {/* ℹ️ 가이드라인 + 가이드 확인 버튼 */}
       <V.GuidelineWrapper>
         <V.Guideline>
@@ -184,6 +183,9 @@ const Verification = () => {
           가이드 확인 <RightArrowIcon width="5" height="9" />
         </V.GuideButton>
       </V.GuidelineWrapper>
+
+      {/* 📸 사진 업로드 영역 */}
+      <PhotoUploadComponent setUploadedImages={setUploadedImages} />
 
       {/* ✅ 인증하기 버튼 */}
       <V.VerifyButton onClick={handleVerificationSubmit}>인증하기</V.VerifyButton>

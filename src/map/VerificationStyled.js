@@ -29,7 +29,7 @@ export const CourseName = styled.div`
 // ✅ 지도 컨테이너
 export const MapWrapper = styled.div`
   width: 90%;
-  height: 260px;
+  height: 410px;
   background: #ccc;
   padding: 5px 20px;
   border-radius: 10px;
@@ -75,11 +75,6 @@ export const UploadText = styled.div`
   color: #777;
 `;
 
-// ✅ 파일 입력 숨기기
-export const FileInput = styled.input`
-  display: none;
-`;
-
 // ✅ 가이드라인 div
 export const GuidelineWrapper = styled.div`
   display: flex;
@@ -91,6 +86,7 @@ export const GuidelineWrapper = styled.div`
   background-color: #7adcdb;
   border-radius: 5px;
   margin: 0 20px;
+  margin-top: 15px;
 `;
 
 // ✅ 가이드라인 텍스트
@@ -129,6 +125,6 @@ export const VerifyButton = styled.button`
   font-weight: 600;
   line-height: normal;
   border: none;
-  margin-top: 20px;
+  margin-top: 0;
   margin-left: 120px;
 `;
