@@ -1,9 +1,7 @@
 import React from "react";
-import * as G from "../map/guideStyled";
-import { useNavigate, useLocation } from "react-router-dom";
+import * as G from "./SplashStyled";
 
 // svg 파일들
-import { ReactComponent as BackIcon } from "../assets/Back.svg";
 import { ReactComponent as TextIcon } from "../assets/GuidingText.svg";
 import { ReactComponent as FlagIcon } from "../assets/GreenFlagIcon.svg";
 import { ReactComponent as EarthIcon } from "../assets/EarthPlanet.svg";
@@ -31,24 +29,9 @@ const Phone = ({ icon: Icon, text }) => (
   </G.Phone>
 );
 
-const Guide = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleBackClick = () => {
-    if (location.state?.from === "verification") {
-      navigate(-1); // ✅ Verification에서 왔다면 이전 페이지로 돌아가기
-    } else {
-      navigate("/plogging"); // ✅ 그 외에는 /plogging으로 이동
-    }
-  };
-
+const SplashReference = () => {
   return (
     <G.Container>
-      {/* <Header /> */}
-      <G.BackIconWrapper onClick={handleBackClick}>
-        <BackIcon />
-      </G.BackIconWrapper>
       <G.Content>
         {/* 제목 영역 */}
         <G.TitleWrapper>
@@ -124,4 +107,4 @@ const Guide = () => {
   );
 };
 
-export default Guide;
+export default SplashReference;

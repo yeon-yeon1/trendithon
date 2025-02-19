@@ -115,7 +115,7 @@ export const ModalImage = styled.img`
   object-fit: cover;
   border-radius: 5px;
   margin-top: 10px;
-  cursor: pointer; /* ✅ 클릭 가능하도록 변경 */
+  cursor: pointer;
 `;
 
 export const ModalOverlay = styled.div`
@@ -124,7 +124,7 @@ export const ModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8); /* ✅ 어두운 배경 */
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,18 +164,18 @@ export const ImageCarousel = styled.div`
   display: flex;
   height: 240px;
   gap: 10px;
-  overflow-x: auto; /* ✅ 가로 스크롤 */
+  overflow-x: auto;
   padding: 10px 0;
-  white-space: nowrap; /* ✅ 이미지가 한 줄에 나오도록 설정 */
-  scroll-snap-type: x mandatory; /* ✅ 스크롤 시 이미지 단위로 이동 */
+  white-space: nowrap;
+  scroll-snap-type: x mandatory;
   margin: 10px 25px 0 25px;
 `;
 
 export const ImagePreview = styled.img`
-  width: 200px; /* ✅ 이미지 크기 고정 */
+  width: 200px;
   border-radius: 12px;
   object-fit: cover;
   cursor: pointer;
-  scroll-snap-align: start; /* ✅ 스크롤 시 이미지 시작점에 맞춤 */
-  flex-shrink: 0; /* ✅ 이미지가 축소되지 않도록 고정 */
+  scroll-snap-align: start;
+  flex-shrink: 0;
 `;

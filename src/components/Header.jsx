@@ -5,7 +5,7 @@ import * as M from "../map/mapStyled"; // ✅ Map 스타일 가져오기
 import { ReactComponent as BackIcon } from "../assets/Back.svg";
 import { ReactComponent as SearchIcon } from "../assets/WhiteFind.svg"; // ✅ 검색 버튼 아이콘 추가
 
-const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel }) => {
+const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel, petName }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -13,6 +13,9 @@ const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel }) => {
   const isAdmin = location.pathname === "/admin";
   const isAdminDetail = location.pathname.startsWith("/admin/detail/"); // ✅ 관리자 상세 페이지
   const isJoin = location.pathname === "/join";
+
+  //레퍼런스때문에 추가
+  const isMR = location.pathname === "/rm";
 
   const getHeaderTitle = () => {
     const path = location.pathname;
@@ -25,11 +28,14 @@ const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel }) => {
     // ✅ `/admin/detail/`로 시작하는 모든 경로에 "관리자 상세 페이지" 제목 표시
     if (path.startsWith("/admin/detail/")) return "관리자 상세 페이지";
 
+    //레퍼런스때문에 추가
+    if (path === "/rm") return `${petName} 멍로깅`;
+
     return "";
   };
 
   return (
-    <H.Header isPlogging={isPlogging} isAdmin={isAdmin} isAdminDetail={isAdminDetail} isJoin={isJoin}>
+    <H.Header isPlogging={isPlogging} isAdmin={isAdmin} isAdminDetail={isAdminDetail} isJoin={isJoin} isMR={isMR}>
       {/* ✅ isPlogging prop 전달 */}
       <H.BackButton
         isAdmin={isAdmin}

@@ -11,6 +11,10 @@ import GlobalStyle from "./GlobalStyle"; // 🔹 전역 스타일 파일 불러�
 import Admin from "./map/Admin";
 import AdminDetail from "./map/AdminDetail";
 
+// 참고용 페이지(지도나 가이드페이지)들 경로 설정 해놓음. 추후 삭제
+import MapReference from "./Extra/MapReference";
+import SplashReference from "./Extra/SplashReference";
+
 function App() {
   return (
     <>
@@ -29,6 +33,10 @@ function App() {
           <Route path="/guide" element={<Guide />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/detail/:id" element={<AdminDetail />} />
+
+          {/* 참고용 페이지(지도나 가이드페이지)들 경로 설정 해놓음. 추후 삭제 */}
+          <Route path="/rm" element={<MapReference />} />
+          <Route path="/rs" element={<SplashReference />} />
         </Routes>
       </BrowserRouter>
     </>

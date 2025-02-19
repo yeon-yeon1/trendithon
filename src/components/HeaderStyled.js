@@ -86,6 +86,13 @@ export const Header = styled.div.withConfig({
     padding-left: 15px;
     font-size: 20px;
   `}
+
+  // 레퍼런스 헤더 설정 
+        ${({ isMR }) =>
+    isMR &&
+    `
+    gap: 89px;
+  `}
 `;
 
 // ✅ 헤더 (뒤로 가기 버튼 + 제목)
