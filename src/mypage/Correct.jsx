@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as C from "../mypage/styledCorrect";
 
-const Home = () => {
+const Correct = () => {
   const navigate = useNavigate();
 
   const menuItems = [
@@ -37,7 +37,7 @@ const Home = () => {
           <C.Label>반려견 이름 수정</C.Label>
           <C.InputField type="text" placeholder="반려견 이름을 입력하세요" />
         </C.FormContainer>
-        <C.CompleteBtn />
+        <C.CompleteBtn onClick={() => navigate(-1)} />
       </C.Container>
 
       <C.Footer>
@@ -51,4 +51,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Correct;

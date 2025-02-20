@@ -52,7 +52,7 @@ const MyPage = () => {
           <S.ProfileName>춘식이</S.ProfileName>
           <S.Points>
             <S.PointText>150P</S.PointText>
-            <S.RewardButton />
+            <S.RewardButton onClick={() => navigate("/reward")} />
           </S.Points>
         </S.ProfileCard>
 
