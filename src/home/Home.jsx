@@ -2,18 +2,20 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import * as H from "../home/styledHome";
+import * as F from "../components/FooterStyled"; // ✅ 기존 스타일 재사용
+import Footer from "../components/Footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const menuItems = [
-    { Icon: H.HomeIcon, path: "/home" },
-    { Icon: H.CommuIcon, path: "/community" },
-    { Icon: H.FlagIcon, path: "/plogging" },
-    { Icon: H.MyPageIcon, path: "/mypage" },
-  ];
+  // const menuItems = [
+  //   { Icon: H.HomeIcon, path: "/home" },
+  //   { Icon: H.CommuIcon, path: "/community" },
+  //   { Icon: H.FlagIcon, path: "/plogging" },
+  //   { Icon: H.MyPageIcon, path: "/mypage" },
+  // ];
 
   const courseImages = [
     {
@@ -89,14 +91,8 @@ const Home = () => {
           <Slider {...settingsCourse}>
             {courseImages.map((course, index) => (
               <H.DogCard key={index}>
-                <H.DogImage
-                  style={{ width: "217px", height: "157px" }}
-                  src={course.src}
-                  alt={`course-${index}`}
-                />
-                <H.RegionText style={{ color: "black" }}>
-                  {course.name}
-                </H.RegionText>
+                <H.DogImage style={{ width: "217px", height: "157px" }} src={course.src} alt={`course-${index}`} />
+                <H.RegionText style={{ color: "black" }}>{course.name}</H.RegionText>
                 <H.PloggingLocation>{course.region}</H.PloggingLocation>
               </H.DogCard>
             ))}
@@ -120,13 +116,17 @@ const Home = () => {
         </H.CarouselContainer>
       </H.Container>
 
+      {/* <H.Footer /> */}
+      {/* 하단바 없는 페이지들은 Footer 통째로 지우시면 됩니다*/}
+      {/* {menuItems.map((item, index) => (
       <H.Footer>
         {menuItems.map((item, index) => (
           <H.NavItem key={index} onClick={() => navigate(item.path)}>
             <item.Icon />
           </H.NavItem>
         ))}
-      </H.Footer>
+      </H.Footer> */}
+      <Footer />
     </>
   );
 };
