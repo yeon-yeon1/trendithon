@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 
-// 배경 (고정, 필요 시 색상만 변경)
 export const Container = styled.div`
   position: relative;
   margin: 0 auto;
@@ -8,7 +7,6 @@ export const Container = styled.div`
   height: 852px;
   background: #7ADCDB;
   min-height: 100vh; /* 화면 크기에 맞게 자동 조절 */
-  border: 1px solid #e3e3e3; /* 화면 구분선, 추후 삭제해도 됨 */
 `;
 
 export const Image = styled.img`
