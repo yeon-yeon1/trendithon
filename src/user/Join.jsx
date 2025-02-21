@@ -34,9 +34,7 @@ const Join = () => {
     setError(null); // ✅ 기존 에러 초기화
 
     try {
-      // 현재 cors 설정 막혀서 우회하느라 주석처리 해놓음. 이후에 설정 풀리면 주석 해제 및 39번 줄 코드 삭제
-      // const response = await fetch(`${API_BASE_URL}/api/user/signup`, {
-      const response = await fetch("/api/user/signup", {
+      const response = await fetch(`${API_BASE_URL}/api/user/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

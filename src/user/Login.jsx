@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import * as L from "../user/styledLogin";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   //   const handleLogin = () => {
   //     navigate("/home");
@@ -30,9 +32,7 @@ const Login = () => {
     setError(null);
 
     try {
-      // 현재 cors 설정 막혀서 우회하느라 주석처리 해놓음. 이후에 설정 풀리면 주석 해제 및 35번 줄 코드 삭제
-      //   const response = await fetch(`${API_BASE_URL}/api/user/login`, {
-      const response = await fetch("/api/user/login", {
+      const response = await fetch(`${API_BASE_URL}/api/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // ✅ JSON 형식 명확히 지정
@@ -49,8 +49,11 @@ const Login = () => {
 
       const result = await response.text();
       console.log("✅ 로그인 응답:", result);
-      alert("로그인 성공!");
-      navigate("/home");
+      // ✅ 사용자 정보를 로컬 스토리지에 저장
+      localStorage.setItem("user", JSON.stringify(result));
+      // ✅ 전역 상태 업데이트
+      login(result);
+      navigate("/welcome");
       // 안내 페이지? 랜딩 페이지 추가 시 이쪽으로 들어가면 됨.
     } catch (error) {
       console.error("❌ 로그인 실패:", error);

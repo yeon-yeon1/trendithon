@@ -10,7 +10,7 @@ const AdminItem = ({ data, index }) => {
     <I.ListItem>
       <DnE width="83" height="72" />
       <I.CourseName>{data.courseName}</I.CourseName>
-      <I.MoreButton onClick={() => navigate(`/admin/detail/${index}`)}>더보기 →</I.MoreButton>
+      <I.MoreButton onClick={() => navigate(`/admin/detail/${data.verificationId}`)}>더보기 →</I.MoreButton>
     </I.ListItem>
   );
 };

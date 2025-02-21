@@ -7,13 +7,17 @@ import Header from "../components/Header"; //헤더
 import DatePickerComponent from "./components/DatePickerComponent.jsx"; //날짜
 import PhotoUploadComponent from "./components/PhotoUploadComponent.jsx"; //인증 사진
 import ThankYouModal from "./components/ThankYouModal"; // 감사 모달
+import { useAuth } from "../context/AuthContext.js"; // 사용자 정보 (로그인 아이디 및 닉네임, 반려견 이름)
 
 // svg 파일
 import { ReactComponent as RightArrowIcon } from "../assets/RightArrow.svg";
 
 const TMAP_KEY = process.env.REACT_APP_TMAP_KEY;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Verification = () => {
+  const { user } = useAuth();
+  console.log("🔍 현재 로그인한 사용자:", user); // 👉 확인용 로그 추가
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -112,30 +116,44 @@ const Verification = () => {
       .replace(".", ""); // ✅ 마지막 점 제거
   };
 
-  // ✅ "인증하기" 버튼 클릭 시 콘솔에 데이터 출력 (연동 시 백엔드로 전달)
-  const handleVerificationSubmit = () => {
+  const handleVerificationSubmit = async () => {
+    const parsedUser = typeof user === "string" ? JSON.parse(user) : user;
+
+    if (!parsedUser?.userId) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     const verificationData = {
-      courseName: courseName || "설정된 코스 없음", // ✅ 플로깅 코스 이름 추가
+      userId: parsedUser.userId,
+      courseName: courseName || "설정된 코스 없음",
       date: formatDate(selectedDate),
-      path: path, // ✅ 마킹 순서대로 좌표 값들
-      uploadedImages, // ✅ 사용자가 업로드한 이미지
+      path: path,
     };
 
-    console.log("🚀 인증 데이터:", JSON.stringify(verificationData, null, 2));
+    const formData = new FormData();
 
-    // ✅ 기존 로컬 스토리지 데이터 가져오기
-    const existingData = JSON.parse(localStorage.getItem("verificationData")) || [];
+    // ✅ JSON을 Blob으로 추가 (application/json 명시)
+    formData.append("verification", new Blob([JSON.stringify(verificationData)], { type: "application/json" }));
 
-    // ✅ 새 데이터 추가
-    const updatedData = [...existingData, verificationData];
+    // ✅ 이미지 파일 추가
+    uploadedImages.forEach((file) => {
+      formData.append("files", file); // API 명세서에 따라 파일 이름이 "file"이어야 함
+    });
 
-    // ✅ 로컬 스토리지에 저장
-    localStorage.setItem("verificationData", JSON.stringify(updatedData));
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/verification`, {
+        method: "POST",
+        body: formData, // ✅ Content-Type 자동 처리
+      });
 
-    console.log("✅ 데이터 저장 완료!");
-
-    // ✅ "감사합니다" 화면을 띄움
-    setShowThankYou(true);
+      const responseText = await response.text(); // ✅ JSON 대신 text로 받기
+      console.log("✅ 인증 전송 성공:", responseText);
+      setShowThankYou(true);
+    } catch (error) {
+      console.error("🚨 인증 전송 실패:", error);
+      alert("인증 전송에 실패했습니다.");
+    }
   };
 
   // ✅ 모달 닫히면 홈으로 이동

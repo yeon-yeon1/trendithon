@@ -4,10 +4,13 @@ import Header from "../components/Header";
 import MapContainer from "./components/MapContainer"; // ✅ 지도 컴포넌트 임포트
 import * as S from "./AdminDetailStyled"; // ✅ 스타일 임포트
 import { ReactComponent as CalendarIcon } from "../assets/Calendar.svg";
+import { useAuth } from "../context/AuthContext";
 
 const TMAP_KEY = process.env.REACT_APP_TMAP_KEY;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const AdminDetail = () => {
+  const { user } = useAuth(); // ✅ 사용자 정보 가져오기
   const { id } = useParams();
   const navigate = useNavigate();
   const [verificationData, setVerificationData] = useState(null);
@@ -15,15 +18,37 @@ const AdminDetail = () => {
   const [uploadedImages, setUploadedImages] = useState([]); // ✅ 이미지 배열 상태
   const [selectedImage, setSelectedImage] = useState(null); // 클릭한 이미지
 
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("verificationData")) || [];
-    const selectedData = storedData[id];
+  // useEffect(() => {
+  //   const storedData = JSON.parse(localStorage.getItem("verificationData")) || [];
+  //   const selectedData = storedData[id];
 
-    if (selectedData) {
-      setVerificationData(selectedData);
-      setRoutePath(selectedData.path || []);
-      setUploadedImages(selectedData.uploadedImages || []); // ✅ 배열로 받기
-    }
+  //   if (selectedData) {
+  //     setVerificationData(selectedData);
+  //     setRoutePath(selectedData.path || []);
+  //     setUploadedImages(selectedData.uploadedImages || []); // ✅ 배열로 받기
+  //   }
+  // }, [id]);
+
+  // ✅ 플로깅 ID 기반으로 데이터 조회 (API 요청)
+  useEffect(() => {
+    const fetchVerificationDetail = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/verification/${id}`);
+
+        if (!response.ok) throw new Error("데이터를 불러오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("✅ 인증 데이터:", data);
+
+        setVerificationData(data);
+        setRoutePath(data.path || []);
+        setUploadedImages(data.uploadedImage ? [data.uploadedImage] : []);
+      } catch (error) {
+        console.error("🚨 데이터 불러오기 실패:", error);
+      }
+    };
+
+    fetchVerificationDetail();
   }, [id]);
 
   // 👇🏻 여기서부터
@@ -120,20 +145,113 @@ const AdminDetail = () => {
   // 지도 컴포넌트도 임포트 해야 함
   // + 157번 줄 가보기
 
-  const handleReject = () => {
-    const storedData = JSON.parse(localStorage.getItem("verificationData")) || [];
-    const updatedData = storedData.filter((_, index) => index !== parseInt(id));
+  // const handleReject = () => {
+  //   const storedData = JSON.parse(localStorage.getItem("verificationData")) || [];
+  //   const updatedData = storedData.filter((_, index) => index !== parseInt(id));
 
-    localStorage.setItem("verificationData", JSON.stringify(updatedData));
-    navigate("/admin");
+  //   localStorage.setItem("verificationData", JSON.stringify(updatedData));
+  //   navigate("/admin");
+  // };
+
+  // const handleAccept = () => {
+  //   console.log("🚀 인증 승인 데이터:", verificationData);
+  //   alert("인증이 승인되었습니다!");
+  //   navigate("/admin");
+  // };
+
+  // if (!verificationData) {
+  //   return <p>데이터를 불러오는 중...</p>;
+  // }
+
+  // ✅ 승인 및 거절 함수
+  // const handleReject = () => {
+  //   alert("인증이 거절되었습니다!");
+  //   navigate("/admin");
+  // };
+
+  // const handleAccept = () => {
+  //   alert("인증이 승인되었습니다!");
+  //   navigate("/admin");
+  // };
+
+  // if (!verificationData) {
+  //   return <p>데이터를 불러오는 중...</p>;
+  // }
+  // ✅ 인증 승인 함수 (PENDING → APPROVED + 자동 삭제)
+  const handleAccept = async () => {
+    try {
+      const numericId = Number(id); // ✅ 문자열을 숫자로 변환
+      console.log("ID 변환 결과:", typeof numericId, numericId); // 확인용 로그
+
+      const response = await fetch(`${API_BASE_URL}/api/admin/verification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          // verificationId: Number(id),
+          verificationId: numericId, // ✅ 숫자 타입으로 전달
+          adminUserId: "root",
+          status: "APPROVED",
+        }),
+      });
+
+      if (!response.ok) throw new Error("인증 승인 실패");
+
+      alert("인증이 승인되었습니다!");
+
+      const deleteResponse = await fetch(`${API_BASE_URL}/api/admin/verification/approve`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          // verificationId: Number(id),
+          verificationId: numericId, // ✅ 숫자 타입으로 전달
+          adminUserId: "root",
+        }),
+      });
+
+      if (!deleteResponse.ok) throw new Error("인증 삭제 실패");
+
+      alert("승인된 인증이 자동 삭제되었습니다!");
+      navigate("/admin");
+    } catch (error) {
+      console.error("🚨 승인 및 삭제 실패:", error);
+      alert("인증 승인 및 삭제에 실패했습니다.");
+    }
   };
 
-  const handleAccept = () => {
-    console.log("🚀 인증 승인 데이터:", verificationData);
-    alert("인증이 승인되었습니다!");
-    navigate("/admin");
+  // ✅ 인증 거절 함수 (PENDING → REJECTED)
+  const handleReject = async () => {
+    try {
+      const numericId = Number(id); // ✅ 문자열을 숫자로 변환
+      console.log("ID 변환 결과:", typeof numericId, numericId); // 확인용 로그
+      const response = await fetch(`${API_BASE_URL}/api/admin/verification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          // verificationId: Number(id),
+          verificationId: numericId, // ✅ 숫자 타입으로 전달
+          adminUserId: "root",
+          status: "REJECTED",
+          // status: "PENDING",
+        }),
+      });
+
+      if (!response.ok) throw new Error("인증 거절 실패");
+
+      alert("인증이 거절되었습니다!");
+      navigate("/admin");
+    } catch (error) {
+      console.error("🚨 인증 거절 실패:", error);
+      alert("인증 거절에 실패했습니다.");
+    }
   };
 
+  // ✅ 로딩 처리
   if (!verificationData) {
     return <p>데이터를 불러오는 중...</p>;
   }
@@ -146,12 +264,14 @@ const AdminDetail = () => {
           <S.Label>
             <span>*</span> 아이디
           </S.Label>
-          <S.Data>아이디 정보가 뜹니다</S.Data>
+          {/* <S.Data>아이디 정보가 뜹니다</S.Data> */}
+          <S.Data>{verificationData.userId}</S.Data>
 
           <S.Label>
             <span>*</span> 반려견 이름
           </S.Label>
-          <S.Data>반려견 정보가 뜹니다</S.Data>
+          {/* <S.Data>반려견 정보가 뜹니다</S.Data> */}
+          <S.Data>{verificationData.petName || "정보 없음"}</S.Data>
 
           <S.Label>
             <span>*</span> 멍로깅 인증
