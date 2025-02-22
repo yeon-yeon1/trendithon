@@ -42,7 +42,8 @@ const AdminDetail = () => {
 
         setVerificationData(data);
         setRoutePath(data.path || []);
-        setUploadedImages(data.uploadedImage ? [data.uploadedImage] : []);
+        setUploadedImages(Array.isArray(data.uploadedImages) ? data.uploadedImages : []);
+        console.log("✅ 이미지 배열 확인:", uploadedImages);
       } catch (error) {
         console.error("🚨 데이터 불러오기 실패:", error);
       }

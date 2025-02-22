@@ -141,6 +141,16 @@ const Verification = () => {
       formData.append("files", file); // API 명세서에 따라 파일 이름이 "file"이어야 함
     });
 
+    // ✅ FormData 내용 출력
+    console.log("🔍 FormData 내용:");
+    for (let pair of formData.entries()) {
+      if (pair[1] instanceof Blob) {
+        console.log(pair[0], "(Blob)", pair[1].name || pair[1].type);
+      } else {
+        console.log(pair[0], pair[1]);
+      }
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/api/verification`, {
         method: "POST",
