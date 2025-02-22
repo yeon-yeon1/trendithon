@@ -142,38 +142,6 @@ const AdminDetail = () => {
   // 지도 컴포넌트도 임포트 해야 함
   // + 157번 줄 가보기
 
-  // const handleReject = () => {
-  //   const storedData = JSON.parse(localStorage.getItem("verificationData")) || [];
-  //   const updatedData = storedData.filter((_, index) => index !== parseInt(id));
-
-  //   localStorage.setItem("verificationData", JSON.stringify(updatedData));
-  //   navigate("/admin");
-  // };
-
-  // const handleAccept = () => {
-  //   console.log("🚀 인증 승인 데이터:", verificationData);
-  //   alert("인증이 승인되었습니다!");
-  //   navigate("/admin");
-  // };
-
-  // if (!verificationData) {
-  //   return <p>데이터를 불러오는 중...</p>;
-  // }
-
-  // ✅ 승인 및 거절 함수
-  // const handleReject = () => {
-  //   alert("인증이 거절되었습니다!");
-  //   navigate("/admin");
-  // };
-
-  // const handleAccept = () => {
-  //   alert("인증이 승인되었습니다!");
-  //   navigate("/admin");
-  // };
-
-  // if (!verificationData) {
-  //   return <p>데이터를 불러오는 중...</p>;
-  // }
   // ✅ 인증 승인 함수 (PENDING → APPROVED + 자동 삭제)
   const handleAccept = async () => {
     try {
@@ -186,7 +154,6 @@ const AdminDetail = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // verificationId: Number(id),
           verificationId: numericId, // ✅ 숫자 타입으로 전달
           adminUserId: "root",
           status: "APPROVED",
@@ -197,13 +164,12 @@ const AdminDetail = () => {
 
       alert("인증이 승인되었습니다!");
 
-      const deleteResponse = await fetch(`${API_BASE_URL}/api/admin/verification/approve`, {
+      const deleteResponse = await fetch(`${API_BASE_URL}/api/admin/verification`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // verificationId: Number(id),
           verificationId: numericId, // ✅ 숫자 타입으로 전달
           adminUserId: "root",
         }),
