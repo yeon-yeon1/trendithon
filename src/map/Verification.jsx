@@ -137,18 +137,28 @@ const Verification = () => {
     formData.append("verification", new Blob([JSON.stringify(verificationData)], { type: "application/json" }));
 
     // ✅ 이미지 파일 추가
-    uploadedImages.forEach((file) => {
-      formData.append("files", file); // API 명세서에 따라 파일 이름이 "file"이어야 함
+    // ✅ Base64 이미지를 File로 변환 후 추가
+    const base64ToFile = (base64String, fileName) => {
+      const arr = base64String.split(",");
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], fileName, { type: mime });
+    };
+
+    uploadedImages.forEach((base64, index) => {
+      const file = base64ToFile(base64, `image_${index}.png`);
+      formData.append("files", file);
     });
 
     // ✅ FormData 내용 출력
     console.log("🔍 FormData 내용:");
     for (let pair of formData.entries()) {
-      if (pair[1] instanceof Blob) {
-        console.log(pair[0], "(Blob)", pair[1].name || pair[1].type);
-      } else {
-        console.log(pair[0], pair[1]);
-      }
+      console.log(pair[0], pair[1]);
     }
 
     try {

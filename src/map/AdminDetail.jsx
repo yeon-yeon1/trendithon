@@ -18,17 +18,6 @@ const AdminDetail = () => {
   const [uploadedImages, setUploadedImages] = useState([]); // ✅ 이미지 배열 상태
   const [selectedImage, setSelectedImage] = useState(null); // 클릭한 이미지
 
-  // useEffect(() => {
-  //   const storedData = JSON.parse(localStorage.getItem("verificationData")) || [];
-  //   const selectedData = storedData[id];
-
-  //   if (selectedData) {
-  //     setVerificationData(selectedData);
-  //     setRoutePath(selectedData.path || []);
-  //     setUploadedImages(selectedData.uploadedImages || []); // ✅ 배열로 받기
-  //   }
-  // }, [id]);
-
   // ✅ 플로깅 ID 기반으로 데이터 조회 (API 요청)
   useEffect(() => {
     const fetchVerificationDetail = async () => {
@@ -42,8 +31,15 @@ const AdminDetail = () => {
 
         setVerificationData(data);
         setRoutePath(data.path || []);
-        setUploadedImages(Array.isArray(data.uploadedImages) ? data.uploadedImages : []);
-        console.log("✅ 이미지 배열 확인:", uploadedImages);
+
+        // ✅ 이미지 배열 업데이트
+        if (Array.isArray(data.uploadedImages)) {
+          setUploadedImages(data.uploadedImages);
+          console.log("✅ 이미지 배열 확인:", data.uploadedImages); // ✅ 이미지 배열 바로 출력
+        } else {
+          setUploadedImages([]);
+          console.warn("⚠️ 이미지 배열이 비어 있습니다.");
+        }
       } catch (error) {
         console.error("🚨 데이터 불러오기 실패:", error);
       }
