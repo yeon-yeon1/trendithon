@@ -18,6 +18,7 @@ import Guide from "./map/guide";
 import GlobalStyle from "./GlobalStyle"; // 🔹 전역 스타일 파일 불러오기
 import Admin from "./map/Admin";
 import AdminDetail from "./map/AdminDetail";
+import DetailCourse from "./home/DetailCourse";
 
 // 참고용 페이지(지도나 가이드페이지)들 경로 설정 해놓음. 추후 삭제
 import MapReference from "./Extra/MapReference";
@@ -31,6 +32,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/home" element={<Home />} />
+            <Route path="/coursedetail" element={<DetailCourse />} />
 
             {/* 마이페이지 관련 경로 */}
             <Route path="/mypage" element={<MyPage />} />
