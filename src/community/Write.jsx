@@ -6,7 +6,7 @@ import * as C from "../community/styledCommunity";
 import * as J from "../user/styledJoin";
 import Footer from "../components/Footer";
 import axios from "axios";
-// import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; // ☑️ 진경 추가 부분
 
 const Write = () => {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Write = () => {
     const image_input = useRef();
     const [text, setText] = useState("");
     const imageInputRef = useRef(null); // input 요소를 직접 참조
-    // const { user } = useAuth();
+    const { user } = useAuth(); // ☑️ 진경 추가 부분
 
     // const menuItems = [
     //     { Icon: H.HomeIcon, path: "/home" },
@@ -48,9 +48,12 @@ const Write = () => {
             alert("내용을 입력해주세요.");
             return;
         }
-
+        
+        const parsedUser = typeof user === "string" ? JSON.parse(user) : user;
         const formData = new FormData();
-        formData.append("post", new Blob([JSON.stringify({ content: text, location: "서울" })], { type: "application/json" }));
+        formData.append("post", new Blob([JSON.stringify({ content: text, location: "서울", userId: parsedUser.userId  })], { type: "application/json" }));
+        // formData.append("post", JSON.stringify({ content: text, location: "서울", userId: user.userId }));
+        console.log("🔍 현재 로그인한 사용자:", user); // ☑️ 진경 추가 부분
 
         // const file = image_input.current?.files?.[0];
         const file = imageInputRef.current?.files?.[0]; // input 요소에서 직접 파일 참조
@@ -59,6 +62,7 @@ const Write = () => {
         }
 
         try {
+            console.log(formData);
             await axios.post("http://3.34.183.9:8080/api/posts", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
