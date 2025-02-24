@@ -14,6 +14,10 @@ const Home = () => {
   const [dogImages, setDogImages] = useState([]);
   const [ploggingCourses, setPloggingCourses] = useState([]); // 플로깅 코스 데이터를 저장할 상태
 
+  const goCommunity = () => {
+    navigate("/community"); // /community 페이지로 이동
+  };
+
   // 이웃 멍로깅 이미지 불러오기
   useEffect(() => {
     const fetchDogImages = async () => {
@@ -114,7 +118,7 @@ const Home = () => {
           <H.CarouselWrapper>
             <Slider {...settingsDog}>
               {dogImages.map((dog, index) => (
-                <H.DogCard key={index}>
+                <H.DogCard onClick={goCommunity} key={index}>
                   <H.DogImage src={dog.imageUrl} alt={`dog-${index}`} />
                   <H.RegionText>{dog.location}</H.RegionText>
                 </H.DogCard>
