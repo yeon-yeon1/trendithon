@@ -80,7 +80,7 @@ export const ProfileImage = styled.img`
   position: absolute;
   margin-top: 10px;
   width: 161px;
-  height: 207.198px;
+  height: 197.198px;
   flex-shrink: 0;
   border-radius: 20px;
 `;
@@ -101,7 +101,7 @@ export const ProfileName = styled.h2`
   font-weight: 700;
   line-height: normal;
   position: absolute;
-  margin-top: 220px;
+  margin-top: 215px;
 `;
 
 export const Points = styled.div`
@@ -166,6 +166,7 @@ export const RecordCard = styled.div`
 // MapContainer 스타일 수정
 export const MapContainer = styled.div`
   width: 363px;
+  min-height: 395px;
   background: #e9f3f3;
   display: flex;
   flex-direction: column;

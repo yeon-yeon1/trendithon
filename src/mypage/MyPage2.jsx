@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.js";
 import * as S from "./styledMyPage2";
+import Footer from "../components/Footer"; //푸터
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -22,11 +23,8 @@ const MyPage2 = () => {
       try {
         if (!parsedUser || !parsedUser.userId) return;
 
-        const response = await fetch(
-          `${API_BASE_URL}/api/mypage?userId=${parsedUser.userId}`
-        );
-        if (!response.ok)
-          throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+        const response = await fetch(`${API_BASE_URL}/api/mypage?userId=${parsedUser.userId}`);
+        if (!response.ok) throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
 
         const data = await response.json();
         setPetName(data.petName);
@@ -46,11 +44,8 @@ const MyPage2 = () => {
       try {
         if (!parsedUser || !parsedUser.userId) return;
 
-        const response = await fetch(
-          `${API_BASE_URL}/api/mypage/posts?userId=${parsedUser.userId}`
-        );
-        if (!response.ok)
-          throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+        const response = await fetch(`${API_BASE_URL}/api/mypage/posts?userId=${parsedUser.userId}`);
+        if (!response.ok) throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
 
         const data = await response.json();
         setPosts(data);
@@ -88,9 +83,7 @@ const MyPage2 = () => {
           if (!response.ok) {
             const responseData = await response.json();
             throw new Error(
-              `HTTP 오류! 상태 코드: ${response.status}, 메시지: ${
-                responseData.message || "알 수 없는 오류"
-              }`
+              `HTTP 오류! 상태 코드: ${response.status}, 메시지: ${responseData.message || "알 수 없는 오류"}`
             );
           }
 
@@ -129,9 +122,7 @@ const MyPage2 = () => {
 
         {isExpanded && (
           <S.ExpandMenu>
-            <S.ExpandItem onClick={() => navigate("/correct")}>
-              회원 정보 수정하기
-            </S.ExpandItem>
+            <S.ExpandItem onClick={() => navigate("/correct")}>회원 정보 수정하기</S.ExpandItem>
             <S.ExpandItem>
               <input
                 type="file"
@@ -140,10 +131,7 @@ const MyPage2 = () => {
                 style={{ display: "none" }}
                 id="fileInput"
               />
-              <label
-                htmlFor="fileInput"
-                style={{ cursor: "pointer", color: "#7adcdb" }}
-              >
+              <label htmlFor="fileInput" style={{ cursor: "pointer", color: "#7adcdb" }}>
                 프로필 사진 지정하기
               </label>
             </S.ExpandItem>
@@ -161,27 +149,12 @@ const MyPage2 = () => {
 
         <S.MapContainer>
           {posts.map((post) => (
-            <S.MapImage
-              key={post.postId}
-              src={post.imageUrl || "/images/defaultPost.svg"}
-              alt="Post"
-            />
+            <S.MapImage key={post.postId} src={post.imageUrl || "/images/defaultPost.svg"} alt="Post" />
           ))}
         </S.MapContainer>
       </S.Container>
 
-      <S.Footer>
-        {[
-          { Icon: S.HomeIcon, path: "/home" },
-          { Icon: S.CommuIcon, path: "/community" },
-          { Icon: S.FlagIcon, path: "/plogging" },
-          { Icon: S.MyPageIcon, path: "/mypage" },
-        ].map((item, index) => (
-          <S.NavItem key={index} onClick={() => navigate(item.path)}>
-            <item.Icon />
-          </S.NavItem>
-        ))}
-      </S.Footer>
+      <Footer />
     </>
   );
 };

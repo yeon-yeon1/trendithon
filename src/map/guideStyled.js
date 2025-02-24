@@ -68,10 +68,10 @@ export const StepWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   margin-top: 0;
   position: ${(props) => (props.$isAbsolute ? "absolute" : "static")};
-  bottom: ${(props) => (props.$isAbsolute ? "30px" : "auto")}; /* ✅ 필요 시 위치 조정 */
+  bottom: ${(props) => (props.$isAbsolute ? "14px" : "auto")}; /* ✅ 필요 시 위치 조정 */
 `;
 
 export const StepColumn = styled.div`
@@ -137,7 +137,7 @@ export const Text = styled.p`
 
 export const TextContainer = styled.div`
   position: absolute;
-  bottom: 40px;
+  bottom: 21px;
   left: 84px;
 `;
 
@@ -216,7 +216,7 @@ export const GuideSection = styled.div`
   border-radius: 10.381px;
   background: rgba(233, 243, 243, 0.5);
   position: absolute;
-  top: 583px;
+  top: 568px;
   left: 16px;
   padding: 0;
 `;
@@ -265,15 +265,16 @@ export const ImageContainer = styled.div`
 //손 사진
 export const HandIconContainer = styled.div`
   position: absolute;
-  top: 515px;
+  // top: 480px;
+  bottom: 0;
   align-items: center;
 `;
 
 //카메라 사진
 export const CameraContainer = styled.div`
   position: absolute;
-  right: 15px;
-  bottom: 270px;
+  right: 25px;
+  bottom: 250px;
   svg {
     margin-left: 2px;
   }

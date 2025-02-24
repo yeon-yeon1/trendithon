@@ -29,7 +29,7 @@ const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel, petName }) =>
     if (path.startsWith("/admin/detail/")) return "관리자 상세 페이지";
 
     //레퍼런스때문에 추가
-    if (path === "/rm") return `${petName} 멍로깅`;
+    if (path.startsWith("/coursedetail/")) return `${petName} 멍로깅`;
 
     return "";
   };

@@ -29,7 +29,7 @@ export const CourseName = styled.div`
 // ✅ 지도 컨테이너
 export const MapWrapper = styled.div`
   width: 90%;
-  height: 410px;
+  height: 350px;
   background: #ccc;
   padding: 5px 20px;
   border-radius: 10px;

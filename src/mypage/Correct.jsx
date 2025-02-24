@@ -27,11 +27,8 @@ const Correct = () => {
       try {
         if (!parsedUser || !parsedUser.userId || isDataLoaded) return; // 데이터가 이미 로드되었으면 다시 호출 안 함
 
-        const response = await fetch(
-          `${API_BASE_URL}/api/mypage?userId=${parsedUser.userId}`
-        );
-        if (!response.ok)
-          throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+        const response = await fetch(`${API_BASE_URL}/api/mypage?userId=${parsedUser.userId}`);
+        if (!response.ok) throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
 
         const data = await response.json();
         setFormData({
@@ -72,25 +69,20 @@ const Correct = () => {
         bodyData.password = formData.password;
       }
 
-      const response = await fetch(
-        `${API_BASE_URL}/api/mypage?userId=${formData.userId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            // 필요한 경우 Authorization 헤더 추가
-            // "Authorization": `Bearer ${yourToken}`
-          },
-          body: JSON.stringify(bodyData),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/api/mypage?userId=${formData.userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          // 필요한 경우 Authorization 헤더 추가
+          // "Authorization": `Bearer ${yourToken}`
+        },
+        body: JSON.stringify(bodyData),
+      });
 
       if (!response.ok) {
         const responseData = await response.json();
         throw new Error(
-          `HTTP 오류! 상태 코드: ${response.status}, 메시지: ${
-            responseData.message || "알 수 없는 오류"
-          }`
+          `HTTP 오류! 상태 코드: ${response.status}, 메시지: ${responseData.message || "알 수 없는 오류"}`
         );
       }
 
@@ -127,12 +119,7 @@ const Correct = () => {
           <C.InputField type="text" value={formData.userId} disabled />
 
           <C.Label>비밀번호 수정</C.Label>
-          <C.InputField
-            type="password"
-            name="password"
-            placeholder="비밀번호를 입력하세요"
-            onChange={handleChange}
-          />
+          <C.InputField type="password" name="password" placeholder="비밀번호를 입력하세요" onChange={handleChange} />
 
           <C.Label>이메일</C.Label>
           <C.InputField type="email" value={formData.email} disabled />

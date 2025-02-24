@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const API_BASE_URL = "http://3.34.183.9:8080"; // 백엔드 API URL
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // 백엔드 API URL
 
 const Home = () => {
   const navigate = useNavigate();
@@ -60,19 +60,25 @@ const Home = () => {
     speed: 500,
     slidesToShow: 1.45,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2500,
-    centerMode: false,
+    // autoplay: true,
+    // autoplaySpeed: 2500,
+    // centerMode: false,
+    draggable: false, // ✅ Slick 드래그 비활성화 (스크롤만 사용)
+    touchMove: false, // ✅ 터치로 슬라이드 이동 비활성화
   };
 
   const settingsDog = {
-    infinite: true,
-    arrows: false,
+    infinite: false,
+    arrows: true,
     speed: 500,
     slidesToShow: 2.3,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2500,
+    // autoplay: true,
+    // autoplaySpeed: 2500,
+    // centerMode: false,
+    autoplay: false,
+    draggable: true,
+    swipeToSlide: true,
   };
 
   // 카드를 클릭했을 때 해당 ID로 CourseDetail 페이지로 이동
@@ -103,8 +109,7 @@ const Home = () => {
                 <H.RegionText style={{ color: "black" }}>
                   {course.courseName} {/* courseName을 표시 */}
                 </H.RegionText>
-                <H.PloggingLocation>{course.date}</H.PloggingLocation>{" "}
-                {/* date를 표시 */}
+                <H.PloggingLocation>{course.date}</H.PloggingLocation> {/* date를 표시 */}
               </H.DogCard>
             ))}
           </Slider>

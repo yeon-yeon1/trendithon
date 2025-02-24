@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.js";
 import * as S from "./styledMyPage";
+import Footer from "../components/Footer"; //푸터
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -24,15 +25,12 @@ const MyPage = () => {
           return;
         }
 
-        const response = await fetch(
-          `${API_BASE_URL}/api/mypage?userId=${parsedUser.userId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}/api/mypage?userId=${parsedUser.userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
@@ -82,9 +80,7 @@ const MyPage = () => {
           if (!response.ok) {
             const responseData = await response.json();
             throw new Error(
-              `HTTP 오류! 상태 코드: ${response.status}, 메시지: ${
-                responseData.message || "알 수 없는 오류"
-              }`
+              `HTTP 오류! 상태 코드: ${response.status}, 메시지: ${responseData.message || "알 수 없는 오류"}`
             );
           }
 
@@ -103,18 +99,11 @@ const MyPage = () => {
     }
   };
 
-  const menuItems = [
-    { Icon: S.HomeIcon, path: "/home" },
-    { Icon: S.CommuIcon, path: "/community" },
-    { Icon: S.FlagIcon, path: "/plogging" },
-    { Icon: S.MyPageIcon, path: "/mypage" },
-  ];
-
   return (
     <>
       <S.Container>
         <S.Header>
-          <S.BackButton onClick={() => navigate(-1)} />
+          <S.BackButton onClick={() => navigate("/home")} />
           <S.Title>마이페이지</S.Title>
         </S.Header>
         <S.ProfileCard>
@@ -129,9 +118,7 @@ const MyPage = () => {
         </S.ProfileCard>
         {isExpanded && (
           <S.ExpandMenu>
-            <S.ExpandItem onClick={goToCorrectPage}>
-              회원 정보 수정하기
-            </S.ExpandItem>
+            <S.ExpandItem onClick={goToCorrectPage}>회원 정보 수정하기</S.ExpandItem>
             <S.ExpandItem>
               <input
                 type="file"
@@ -140,10 +127,7 @@ const MyPage = () => {
                 style={{ display: "none" }}
                 id="fileInput"
               />
-              <label
-                htmlFor="fileInput"
-                style={{ cursor: "pointer", color: "#7adcdb" }}
-              >
+              <label htmlFor="fileInput" style={{ cursor: "pointer", color: "#7adcdb" }}>
                 프로필 사진 지정하기
               </label>
             </S.ExpandItem>
@@ -153,10 +137,7 @@ const MyPage = () => {
           <S.Tab selected>
             나의<S.BoldText> 멍로깅 기록</S.BoldText>
           </S.Tab>
-          <S.Tab
-            style={{ marginLeft: "-60px" }}
-            onClick={() => navigate(`/mypage2`)}
-          >
+          <S.Tab style={{ marginLeft: "-60px" }} onClick={() => navigate(`/mypage2`)}>
             커뮤니티<S.BoldText> 작성 기록</S.BoldText>
           </S.Tab>
         </S.Tabs>
@@ -164,23 +145,13 @@ const MyPage = () => {
           {logs.map((log) => (
             <div key={log.verificationId}>
               <S.RecordDate>{log.date}</S.RecordDate>
-              <S.MapImage
-                src={log.uploadedImages[0] || "/images/exMap1.svg"}
-                alt="Map"
-              />
+              <S.MapImage src={log.uploadedImages[0] || "/images/exMap1.svg"} alt="Map" />
               <S.RecordTitle>{log.courseName}</S.RecordTitle>
             </div>
           ))}
         </S.MapContainer>
       </S.Container>
-
-      <S.Footer>
-        {menuItems.map((item, index) => (
-          <S.NavItem key={index} onClick={() => navigate(item.path)}>
-            <item.Icon />
-          </S.NavItem>
-        ))}
-      </S.Footer>
+      <Footer />
     </>
   );
 };

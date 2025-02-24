@@ -33,14 +33,18 @@ export const NavItem = styled.div`
 
 // ✅ DOM으로 전달될 불필요한 props(`hoverSrc`)를 필터링 (hoverSrc 경고 문구가 계속 떠서 수정)
 const Icon = styled.img.withConfig({
-  shouldForwardProp: (prop) => prop !== "hoverSrc",
+  shouldForwardProp: (prop) => prop !== "hoverSrc" && prop !== "src",
 })`
   width: 56px;
   height: 55px;
   margin-bottom: 5px;
 
+  /* 기본 이미지 */
+  content: ${(props) => `url(${props.src})`};
+
+  /* 호버 시 이미지 */
   &:hover {
-    content: url(${(props) => props.hoverSrc});
+    content: ${(props) => (props.hoverSrc ? `url(${props.hoverSrc})` : `url(${props.src})`)};
   }
 `;
 

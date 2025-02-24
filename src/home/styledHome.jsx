@@ -107,12 +107,43 @@ export const BoldText = styled.span`
 `;
 
 // 캐러셀 컨테이너
+// export const CarouselWrapper = styled.div`
+//   padding: 0 20px;
+//   overflow-x: auto;
+//   scroll-snap-type: x mandatory;
+//   white-space: nowrap;
+
+//   &.plogging-carousel .slick-list {
+//     // overflow: visible !important;
+//     overflow-x: auto !important; // ✅ 가로 스크롤 가능하게 수정
+//     overflow-y: hidden;
+//     scroll-snap-type: x mandatory;
+//     -webkit-overflow-scrolling: touch; // ✅ 터치스크롤 부드럽게
+//   }
+
+//   &.plogging-carousel .slick-track {
+//     display: flex;
+//     gap: 10px; /* 카드 간격 조정 */
+//   }
+// `;
+
 export const CarouselWrapper = styled.div`
   padding: 0 20px;
+  overflow-x: auto; /* ✅ 가로 스크롤 활성화 */
+  scroll-snap-type: x mandatory;
+  white-space: nowrap;
 
-  &.plogging-carousel .slick-track {
+  .slick-list {
+    overflow: visible !important; /* ✅ Slick Slider 영역 바깥으로도 스크롤 가능 */
+  }
+
+  .slick-track {
     display: flex;
-    gap: 10px; /* 카드 간격 조정 */
+  }
+
+  .slick-slide {
+    display: flex;
+    outline: none; /* ✅ 포커스 시 생기는 테두리 제거 */
   }
 `;
 

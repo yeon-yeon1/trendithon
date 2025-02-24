@@ -15,7 +15,7 @@ export const Container2 = styled.div`
   display: flex;
   flex-direction: column;
   height: 800px;
-  padding-top: 45px;
+  padding-top: 25px;
 `;
 
 export const Data = styled.div`

@@ -21,9 +21,6 @@ import AdminDetail from "./map/AdminDetail";
 import DetailCourse from "./home/DetailCourse";
 import PostDetail from "./community/PostDetail";
 
-// 참고용 페이지(지도나 가이드페이지)들 경로 설정 해놓음. 추후 삭제
-import MapReference from "./Extra/MapReference";
-
 function App() {
   return (
     <>
@@ -33,10 +30,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/home" element={<Home />} />
-             <Route
-              path="/coursedetail/:verificationid"
-              element={<DetailCourse />}
-            />
+            <Route path="/coursedetail/:verificationid" element={<DetailCourse />} />
 
             {/* 마이페이지 관련 경로 */}
             <Route path="/mypage" element={<MyPage />} />
@@ -62,9 +56,6 @@ function App() {
             <Route path="/community" element={<Community />} />
             <Route path="/write" element={<Write />} />
             <Route path="/community/:id" element={<PostDetail />} />
-
-            {/* 참고용 페이지(삭제 예정) */}
-            <Route path="/rm" element={<MapReference />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

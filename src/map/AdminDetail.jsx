@@ -164,20 +164,20 @@ const AdminDetail = () => {
 
       alert("인증이 승인되었습니다!");
 
-      const deleteResponse = await fetch(`${API_BASE_URL}/api/admin/verification`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          verificationId: numericId, // ✅ 숫자 타입으로 전달
-          adminUserId: "root",
-        }),
-      });
+      // const deleteResponse = await fetch(`${API_BASE_URL}/api/admin/verification`, {
+      //   method: "DELETE",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     verificationId: numericId, // ✅ 숫자 타입으로 전달
+      //     adminUserId: "root",
+      //   }),
+      // });
 
-      if (!deleteResponse.ok) throw new Error("인증 삭제 실패");
+      // if (!deleteResponse.ok) throw new Error("인증 삭제 실패");
 
-      alert("승인된 인증이 자동 삭제되었습니다!");
+      // alert("승인된 인증이 자동 삭제되었습니다!");
       navigate("/admin");
     } catch (error) {
       console.error("🚨 승인 및 삭제 실패:", error);

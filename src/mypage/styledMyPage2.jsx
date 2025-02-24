@@ -80,7 +80,7 @@ export const ProfileImage = styled.img`
   position: absolute;
   margin-top: 10px;
   width: 161px;
-  height: 207.198px;
+  height: 197.198px;
   flex-shrink: 0;
   border-radius: 20px;
 `;
@@ -101,7 +101,7 @@ export const ProfileName = styled.h2`
   font-weight: 700;
   line-height: normal;
   position: absolute;
-  margin-top: 220px;
+  margin-top: 215px;
 `;
 
 export const Points = styled.div`
@@ -177,6 +177,7 @@ export const RecordDate = styled.span`
 
 export const MapContainer = styled.div`
   width: 373px;
+  min-height: 395px;
   display: flex;
   flex-wrap: wrap;
   gap: 0px; /* 가로 간격은 그대로 두고 세로 간격을 줄이기 위해 gap을 0으로 설정 */
