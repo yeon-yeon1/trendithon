@@ -56,14 +56,50 @@ const MyPage = () => {
 
   const goToCorrectPage = () => navigate("/correct");
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
+      // 1. 선택된 이미지를 바로 미리보기
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImg(reader.result);
+      reader.onloadend = async () => {
+        const previewImage = reader.result;
+        setProfileImg(previewImage); // 미리보기 이미지 바로 반영
+
+        // 2. 프로필 사진 서버에 업로드
+        const formData = new FormData();
+        formData.append("profile", file);
+        formData.append("userId", parsedUser.userId);
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/api/mypage`, {
+            method: "PATCH",
+            headers: {
+              Accept: "application/json",
+            },
+            body: formData,
+          });
+
+          if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(
+              `HTTP 오류! 상태 코드: ${response.status}, 메시지: ${
+                responseData.message || "알 수 없는 오류"
+              }`
+            );
+          }
+
+          // 서버에서 프로필 이미지 변경 후 성공적으로 반영되면
+          const data = await response.json();
+          setProfileImg(data.profileImg); // 서버에서 반환된 새로운 프로필 이미지로 업데이트
+          console.log("✅ 프로필 이미지 변경 완료");
+        } catch (error) {
+          console.error("❌ 프로필 이미지 변경 오류:", error.message);
+          // 실패한 경우 미리보기 이미지를 되돌릴 수 있습니다.
+          setProfileImg("/images/defaultPet.svg"); // 실패 시 기본 이미지로 되돌리기
+        }
       };
-      reader.readAsDataURL(file);
+
+      reader.readAsDataURL(file); // 선택한 이미지를 읽어서 미리보기 표시
     }
   };
 
