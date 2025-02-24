@@ -20,6 +20,7 @@ import AdminDetail from "./map/AdminDetail";
 // 참고용 페이지(지도나 가이드페이지)들 경로 설정 해놓음. 추후 삭제
 import MapReference from "./Extra/MapReference";
 import SplashReference from "./Extra/SplashReference";
+import PostDetail from "./community/PostDetail";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
             {/* 커뮤니티 관련 경로 */}
             <Route path="/community" element={<Community />} />
             <Route path="/write" element={<Write />} />
+            <Route path="/community/:id" element={<PostDetail />} />
 
             {/* 참고용 페이지(삭제 예정) */}
             <Route path="/rm" element={<MapReference />} />

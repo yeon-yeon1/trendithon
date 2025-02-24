@@ -37,23 +37,36 @@ export const CalendarIcon = styled.img`
     height: 9.058px;
 `;
 
-export const PositionBox = styled.div`
+export const PositionBox = styled.input`
     width: 338px;
     height: 41px;
     border-radius: 10px;
     border: 1px solid #7ADCDB;
     background: #FFF;
-    color: #E3E3E3;
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
     display: flex;
     align-items: center;
     margin-top: 11px;
     margin-left: 17px;
     padding-left: 21px;
+    color: #000;
+    font-family: "Pretendard Variable";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+    &::placeholder {
+        color: #E3E3E3;
+        font-family: Inter;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    &:focus {
+        outline: none;
+    }
 `;
 
 export const ImageFile = styled.div`
