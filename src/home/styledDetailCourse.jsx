@@ -182,4 +182,11 @@ export const DetailMap = styled.div`
   border: 1px solid #d9d9d9;
   margin-left: 17px;
   margin-top: 20px;
+  overflow: hidden; /* 넘치는 이미지 숨김 */
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 비율 유지하면서 꽉 차게 */
+  }
 `;
