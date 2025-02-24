@@ -33,7 +33,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/home" element={<Home />} />
-            <Route path="/coursedetail" element={<DetailCourse />} />
+             <Route
+              path="/coursedetail/:verificationid"
+              element={<DetailCourse />}
+            />
 
             {/* 마이페이지 관련 경로 */}
             <Route path="/mypage" element={<MyPage />} />
