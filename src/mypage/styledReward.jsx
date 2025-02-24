@@ -59,36 +59,16 @@ export const Icon = styled.img`
 
 // 아이콘 컴포넌트 (고정, 개별 아이콘)
 export const HomeIcon = (props) => (
-  <Icon
-    {...props}
-    src="/images/HomeIcon.svg"
-    alt="Home"
-    hoverSrc="/images/OnHomeIcon.svg"
-  />
+  <Icon {...props} src="/images/HomeIcon.svg" alt="Home" hoverSrc="/images/OnHomeIcon.svg" />
 );
 export const CommuIcon = (props) => (
-  <Icon
-    {...props}
-    src="/images/CommuIcon.svg"
-    alt="Community"
-    hoverSrc="/images/OnCommuIcon.svg"
-  />
+  <Icon {...props} src="/images/CommuIcon.svg" alt="Community" hoverSrc="/images/OnCommuIcon.svg" />
 );
 export const FlagIcon = (props) => (
-  <Icon
-    {...props}
-    src="/images/FlagIcon.svg"
-    alt="Plogging"
-    hoverSrc="/images/OnFlagIcon.svg"
-  />
+  <Icon {...props} src="/images/FlagIcon.svg" alt="Plogging" hoverSrc="/images/OnFlagIcon.svg" />
 );
 export const MyPageIcon = (props) => (
-  <Icon
-    {...props}
-    src="/images/MyPageIcon.svg"
-    alt="My Page"
-    hoverSrc="/images/OnMyPageIcon.svg"
-  />
+  <Icon {...props} src="/images/MyPageIcon.svg" alt="My Page" hoverSrc="/images/OnMyPageIcon.svg" />
 );
 
 // 뒤로 가기 버튼
@@ -113,7 +93,7 @@ export const Title = styled.h1`
   margin-left: 120px;
   text-align: center;
   color: #000;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 20px;
   font-style: normal;
   font-weight: 600;

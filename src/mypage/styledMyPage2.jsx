@@ -62,7 +62,7 @@ export const Title = styled.h1`
   margin-left: 105px;
   text-align: center;
   color: #000;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
@@ -95,7 +95,7 @@ export const ProfileContainer = styled.div`
 
 export const ProfileName = styled.h2`
   color: #fff;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
@@ -112,7 +112,7 @@ export const Points = styled.div`
 
 export const PointText = styled.span`
   color: white;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 25px;
   font-style: normal;
   font-weight: 700;
@@ -144,15 +144,14 @@ export const Tabs = styled.div`
 
 export const Tab = styled.div`
   color: ${({ selected }) => (selected ? "#7adcdb" : "#E3E3E3;")};
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 15px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   padding: 10px;
   cursor: pointer;
-  border-bottom: ${({ selected }) =>
-    selected ? "2px solid #7adcdb;" : "none"};
+  border-bottom: ${({ selected }) => (selected ? "2px solid #7adcdb;" : "none")};
 `;
 
 export const RecordCard = styled.div`
@@ -166,7 +165,7 @@ export const RecordCard = styled.div`
 
 export const RecordDate = styled.span`
   color: #aaa;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -205,7 +204,7 @@ export const RecordTitle = styled.h3`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   margin-top: 240px;
   margin-left: 70px;
   position: absolute;
@@ -340,7 +339,7 @@ export const ExpandItem = styled.button`
   cursor: pointer;
   text-align: center;
   color: #7adcdb;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

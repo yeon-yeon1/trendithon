@@ -93,7 +93,7 @@ export const CarouselContainer = styled.div`
 // 이웃 멍로깅 문구
 export const Text = styled.div`
   color: #000;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -138,7 +138,7 @@ export const DogImage = styled.img`
 // 지역 이름 텍스트
 export const RegionText = styled.p`
   color: #aaa;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -159,7 +159,7 @@ export const Banner = styled.div`
 // 플로깅 코스 장소
 export const PloggingLocation = styled.div`
   color: #aaa;
-  font-family: "Pretendard Variable";
+  // font-family: "Pretendard Variable";
   font-size: 10px;
   font-style: normal;
   font-weight: 600;

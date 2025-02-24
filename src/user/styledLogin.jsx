@@ -5,9 +5,9 @@ export const Container = styled.div`
   position: relative;
   margin: 0 auto;
   width: 393px;
-  min-height: 932px;
+  // min-height: 932px;
   background: #7adcdb;
-  //   min-height: 100vh; /* 화면 크기에 맞게 자동 조절 */
+  min-height: 100vh; /* 화면 크기에 맞게 자동 조절 */
 `;
 
 export const Image = styled.img`
