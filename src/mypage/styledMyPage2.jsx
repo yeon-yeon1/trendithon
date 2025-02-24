@@ -186,13 +186,15 @@ export const MapContainer = styled.div`
 `;
 
 export const MapImage = styled.img`
-  margin-left: 9px;
-  width: 45%; /* 한 줄에 두 개씩 배치 */
-  height: 130px; /* 이미지 크기 조정 */
+  margin-left: 30px;
   margin-top: 20px; /* 세로 간격을 좁히기 위해 margin-top을 음수로 설정 */
   margin-bottom: 10px; /* 세로 간격을 좁히기 위해 margin-bottom을 음수로 설정 */
   flex-shrink: 0;
   cursor: pointer;
+  border-radius: 20px;
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
 `;
 
 export const RecordTitle = styled.h3`
@@ -355,3 +357,5 @@ export const ExpandItem = styled.button`
     background: #e9f3f3;
   }
 `;
+
+export const MapItem = styled.div``;
