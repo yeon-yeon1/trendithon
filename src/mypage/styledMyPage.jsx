@@ -82,6 +82,7 @@ export const ProfileImage = styled.img`
   width: 161px;
   height: 207.198px;
   flex-shrink: 0;
+  border-radius: 20px;
 `;
 
 export const ProfileContainer = styled.div`
