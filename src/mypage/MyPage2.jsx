@@ -1,41 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.js";
 import * as S from "./styledMyPage2";
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const MyPage2 = () => {
   const navigate = useNavigate();
-  const [isExpanded, setIsExpanded] = useState(false); // 버튼 리스트의 표시 여부
-  const [profileImg, setProfileImg] = useState("/images/defaultPet.svg"); // 프로필 이미지 상태
+  const { user } = useAuth();
+  const parsedUser = typeof user === "string" ? JSON.parse(user) : user;
 
-  const toggleExpand = () => {
-    setIsExpanded((prev) => !prev); // 클릭할 때마다 토글
-  };
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [profileImg, setProfileImg] = useState("/images/defaultPet.svg");
+  const [posts, setPosts] = useState([]); // 게시글 데이터
+  const [petName, setPetName] = useState(""); // 🐶 petName 추가
+  const [point, setPoint] = useState(0); // 💰 point 추가
 
-  const go1 = () => {
-    navigate(`/mypage`);
-  };
+  // 📝 1. 마이페이지 정보 (petName, point) 가져오기
+  useEffect(() => {
+    const fetchMyPageInfo = async () => {
+      try {
+        if (!parsedUser || !parsedUser.userId) return;
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImg(reader.result); // 선택한 파일을 프로필 이미지로 설정
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+        const response = await fetch(
+          `${API_BASE_URL}/api/mypage?userId=${parsedUser.userId}`
+        );
+        if (!response.ok)
+          throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
 
-  const goToCorrectPage = () => {
-    navigate("/correct"); // 회원 정보 수정 페이지로 이동
-  };
+        const data = await response.json();
+        setPetName(data.petName);
+        setPoint(data.point);
+      } catch (error) {
+        console.error("❌ 마이페이지 정보 로딩 오류:", error.message);
+      }
+    };
 
-  const menuItems = [
-    { Icon: S.HomeIcon, path: "/home" },
-    { Icon: S.CommuIcon, path: "/community" },
-    { Icon: S.FlagIcon, path: "/plogging" },
-    { Icon: S.MyPageIcon, path: "/mypage" },
-  ];
+    fetchMyPageInfo();
+  }, [parsedUser]);
+
+  // 📝 2. 커뮤니티 작성 기록 (posts) 가져오기
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        if (!parsedUser || !parsedUser.userId) return;
+
+        const response = await fetch(
+          `${API_BASE_URL}/api/mypage/posts?userId=${parsedUser.userId}`
+        );
+        if (!response.ok)
+          throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error("❌ 커뮤니티 작성 기록 로딩 오류:", error.message);
+      }
+    };
+
+    fetchPosts();
+  }, [parsedUser]);
 
   return (
     <>
@@ -47,26 +71,32 @@ const MyPage2 = () => {
 
         <S.ProfileCard>
           <S.ProfileContainer />
-          <S.ExpandBtn onClick={toggleExpand} />
+          <S.ExpandBtn onClick={() => setIsExpanded((prev) => !prev)} />
           <S.ProfileImage src={profileImg} alt="Profile" />
-          <S.ProfileName>춘식이</S.ProfileName>
+          <S.ProfileName>{petName}</S.ProfileName> {/* 🐶 petName 적용 */}
           <S.Points>
-            <S.PointText>150P</S.PointText>
+            <S.PointText>{point}P</S.PointText> {/* 💰 point 적용 */}
             <S.RewardButton onClick={() => navigate("/reward")} />
           </S.Points>
         </S.ProfileCard>
 
-        {/* 버튼 리스트 - isExpanded 상태에 따라 표시 */}
         {isExpanded && (
           <S.ExpandMenu>
-            <S.ExpandItem onClick={goToCorrectPage}>
+            <S.ExpandItem onClick={() => navigate("/correct")}>
               회원 정보 수정하기
             </S.ExpandItem>
             <S.ExpandItem>
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleFileChange}
+                onChange={(event) => {
+                  const file = event.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => setProfileImg(reader.result);
+                    reader.readAsDataURL(file);
+                  }
+                }}
                 style={{ display: "none" }}
                 id="fileInput"
               />
@@ -81,26 +111,32 @@ const MyPage2 = () => {
         )}
 
         <S.Tabs>
-          <S.Tab onClick={go1}>
-            나의
-            <S.BoldText> 멍로깅 기록</S.BoldText>
+          <S.Tab onClick={() => navigate(`/mypage`)}>
+            나의<S.BoldText> 멍로깅 기록</S.BoldText>
           </S.Tab>
           <S.Tab style={{ marginLeft: "-60px" }} selected>
-            커뮤니티
-            <S.BoldText> 작성 기록</S.BoldText>
+            커뮤니티<S.BoldText> 작성 기록</S.BoldText>
           </S.Tab>
         </S.Tabs>
 
         <S.MapContainer>
-          <S.MapImage src="/images/dog1.svg" alt="Map" />
-          <S.MapImage src="/images/dog2.svg" alt="Map" />
-          <S.MapImage src="/images/dog1.svg" alt="Map" />
-          <S.MapImage src="/images/dog2.svg" alt="Map" />
+          {posts.map((post) => (
+            <S.MapImage
+              key={post.postId}
+              src={post.imageUrl || "/images/defaultPost.svg"}
+              alt="Post"
+            />
+          ))}
         </S.MapContainer>
       </S.Container>
 
       <S.Footer>
-        {menuItems.map((item, index) => (
+        {[
+          { Icon: S.HomeIcon, path: "/home" },
+          { Icon: S.CommuIcon, path: "/community" },
+          { Icon: S.FlagIcon, path: "/plogging" },
+          { Icon: S.MyPageIcon, path: "/mypage" },
+        ].map((item, index) => (
           <S.NavItem key={index} onClick={() => navigate(item.path)}>
             <item.Icon />
           </S.NavItem>
