@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as G from "./SplashStyled";
+import { useNavigate } from "react-router-dom";
 
 // svg 파일들
-import { ReactComponent as TextIcon } from "../assets/GuidingText.svg";
-import { ReactComponent as FlagIcon } from "../assets/GreenFlagIcon.svg";
-import { ReactComponent as EarthIcon } from "../assets/EarthPlanet.svg";
-import { ReactComponent as iPhone13Icon } from "../assets/iPhone13.svg";
-import { ReactComponent as iPhone12Icon } from "../assets/iPhone12.svg";
-import { ReactComponent as HandIcon } from "../assets/GuidingHand.svg";
-import { ReactComponent as CameraIcon } from "../assets/WhiteCamera.svg";
-import { ReactComponent as CircleIcon } from "../assets/GreenC.svg";
+import { ReactComponent as TextIcon } from "../../assets/GuidingText.svg";
+import { ReactComponent as FlagIcon } from "../../assets/GreenFlagIcon.svg";
+import { ReactComponent as EarthIcon } from "../../assets/EarthPlanet.svg";
+import { ReactComponent as iPhone13Icon } from "../../assets/iPhone13.svg";
+import { ReactComponent as iPhone12Icon } from "../../assets/iPhone12.svg";
+import { ReactComponent as HandIcon } from "../../assets/GuidingHand.svg";
+import { ReactComponent as CameraIcon } from "../../assets/WhiteCamera.svg";
+import { ReactComponent as CircleIcon } from "../../assets/GreenC.svg";
 
 const Step = ({ number, icon, text = "", isAbsolute = false }) => (
   <G.StepWrapper $isAbsolute={isAbsolute}>
@@ -30,6 +31,18 @@ const Phone = ({ icon: Icon, text }) => (
 );
 
 const SplashReference = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate("/home");
+    }, 1800);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [navigate]);
+
   return (
     <G.Container>
       <G.Content>

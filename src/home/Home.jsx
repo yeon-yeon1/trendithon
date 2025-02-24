@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import * as H from "../home/styledHome";
@@ -7,97 +7,105 @@ import Footer from "../components/Footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const API_BASE_URL = "http://3.34.183.9:8080"; // 백엔드 API URL
+
 const Home = () => {
   const navigate = useNavigate();
+  const [dogImages, setDogImages] = useState([]);
+  const [ploggingCourses, setPloggingCourses] = useState([]); // 플로깅 코스 데이터를 저장할 상태
 
-  // const menuItems = [
-  //   { Icon: H.HomeIcon, path: "/home" },
-  //   { Icon: H.CommuIcon, path: "/community" },
-  //   { Icon: H.FlagIcon, path: "/plogging" },
-  //   { Icon: H.MyPageIcon, path: "/mypage" },
-  // ];
+  // 이웃 멍로깅 이미지 불러오기
+  useEffect(() => {
+    const fetchDogImages = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/posts/all`);
+        if (!response.ok) {
+          throw new Error("데이터를 불러오는 데 실패했습니다.");
+        }
+        const data = await response.json();
+        setDogImages(data);
+      } catch (error) {
+        console.error("❌ 데이터 불러오기 실패:", error);
+      }
+    };
 
-  const courseImages = [
-    {
-      src: "/images/ExMap1.svg",
-      name: "청계천 플로깅",
-      region: "서울시 종로구",
-    },
-    {
-      src: "/images/ExMap2.svg",
-      name: "지역환경축제",
-      region: "서울시 서초구",
-    },
-    {
-      src: "/images/ExMap1.svg",
-      name: "청계천 플로깅",
-      region: "서울시 서초구",
-    },
-    {
-      src: "/images/ExMap2.svg",
-      name: "지역환경축제",
-      region: "서울시 서초구",
-    },
-    {
-      src: "/images/ExMap1.svg",
-      name: "청계천 플로깅",
-      region: "서울시 서초구",
-    },
-    {
-      src: "/images/ExMap2.svg",
-      name: "지역환경축제",
-      region: "서울시 서초구",
-    },
-  ];
+    fetchDogImages();
+  }, []);
 
-  const dogImages = [
-    { src: "/images/dog1.svg", region: "서울시 종로구" },
-    { src: "/images/dog2.svg", region: "서울시 서대문구" },
-    { src: "/images/dog3.svg", region: "기본 이미지" },
-  ];
+  // 플로깅 추천 코스 데이터 불러오기
+  useEffect(() => {
+    const fetchPloggingCourses = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/verification`);
+        if (!response.ok) {
+          throw new Error("플로깅 추천 코스를 불러오는 데 실패했습니다.");
+        }
+        const data = await response.json();
+        setPloggingCourses(data);
+      } catch (error) {
+        console.error("❌ 플로깅 추천 코스 불러오기 실패:", error);
+      }
+    };
+
+    fetchPloggingCourses();
+  }, []);
 
   const settingsCourse = {
-    infinite: false, // 처음부터 왼쪽 카드가 보이게 설정
+    infinite: false,
     arrows: true,
     speed: 500,
-    slidesToShow: 1.45, // 왼쪽 카드가 더 보이게 설정
+    slidesToShow: 1.45,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
-    centerMode: false, // 중앙 정렬 해제
+    centerMode: false,
   };
 
   const settingsDog = {
     infinite: true,
     arrows: false,
     speed: 500,
-    slidesToShow: 2.3, // 한 번에 2.3개씩 표시
+    slidesToShow: 2.3,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
   };
 
+  // 카드를 클릭했을 때 해당 ID로 CourseDetail 페이지로 이동
+  const handleCourseClick = (verificationId) => {
+    navigate(`/coursedetail/${verificationId}`);
+  };
+
   return (
     <>
       <H.Container>
-        {/* 메인 배너*/}
         <H.Banner />
-        {/* 이달의 추천 코스 캐러셀 */}
         <H.Text>
           이달의
           <H.BoldText> 플로깅 추천 코스</H.BoldText>
         </H.Text>
         <H.CarouselWrapper className="plogging-carousel">
           <Slider {...settingsCourse}>
-            {courseImages.map((course, index) => (
-              <H.DogCard key={index}>
-                <H.DogImage style={{ width: "217px", height: "157px" }} src={course.src} alt={`course-${index}`} />
-                <H.RegionText style={{ color: "black" }}>{course.name}</H.RegionText>
-                <H.PloggingLocation>{course.region}</H.PloggingLocation>
+            {ploggingCourses.map((course, index) => (
+              <H.DogCard
+                key={index}
+                onClick={() => handleCourseClick(course.verificationId)} // 클릭 시 해당 ID로 이동
+              >
+                <H.DogImage
+                  style={{ width: "217px", height: "157px" }}
+                  src={course.uploadedImages[0]} // uploadedImages에서 첫 번째 이미지 사용
+                  alt={`course-${index}`}
+                />
+                <H.RegionText style={{ color: "black" }}>
+                  {course.courseName} {/* courseName을 표시 */}
+                </H.RegionText>
+                <H.PloggingLocation>{course.date}</H.PloggingLocation>{" "}
+                {/* date를 표시 */}
               </H.DogCard>
             ))}
           </Slider>
         </H.CarouselWrapper>
+
         <H.CarouselContainer style={{ marginTop: "10px" }}>
           <H.Text>
             이웃
@@ -107,25 +115,14 @@ const Home = () => {
             <Slider {...settingsDog}>
               {dogImages.map((dog, index) => (
                 <H.DogCard key={index}>
-                  <H.DogImage src={dog.src} alt={`dog-${index}`} />
-                  <H.RegionText>{dog.region}</H.RegionText>
+                  <H.DogImage src={dog.imageUrl} alt={`dog-${index}`} />
+                  <H.RegionText>{dog.location}</H.RegionText>
                 </H.DogCard>
               ))}
             </Slider>
           </H.CarouselWrapper>
         </H.CarouselContainer>
       </H.Container>
-
-      {/* <H.Footer /> */}
-      {/* 하단바 없는 페이지들은 Footer 통째로 지우시면 됩니다*/}
-      {/* {menuItems.map((item, index) => (
-      <H.Footer>
-        {menuItems.map((item, index) => (
-          <H.NavItem key={index} onClick={() => navigate(item.path)}>
-            <item.Icon />
-          </H.NavItem>
-        ))}
-      </H.Footer> */}
       <Footer />
     </>
   );

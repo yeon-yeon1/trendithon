@@ -18,17 +18,6 @@ const AdminDetail = () => {
   const [uploadedImages, setUploadedImages] = useState([]); // ✅ 이미지 배열 상태
   const [selectedImage, setSelectedImage] = useState(null); // 클릭한 이미지
 
-  // useEffect(() => {
-  //   const storedData = JSON.parse(localStorage.getItem("verificationData")) || [];
-  //   const selectedData = storedData[id];
-
-  //   if (selectedData) {
-  //     setVerificationData(selectedData);
-  //     setRoutePath(selectedData.path || []);
-  //     setUploadedImages(selectedData.uploadedImages || []); // ✅ 배열로 받기
-  //   }
-  // }, [id]);
-
   // ✅ 플로깅 ID 기반으로 데이터 조회 (API 요청)
   useEffect(() => {
     const fetchVerificationDetail = async () => {
@@ -42,7 +31,15 @@ const AdminDetail = () => {
 
         setVerificationData(data);
         setRoutePath(data.path || []);
-        setUploadedImages(data.uploadedImage ? [data.uploadedImage] : []);
+
+        // ✅ 이미지 배열 업데이트
+        if (Array.isArray(data.uploadedImages)) {
+          setUploadedImages(data.uploadedImages);
+          console.log("✅ 이미지 배열 확인:", data.uploadedImages); // ✅ 이미지 배열 바로 출력
+        } else {
+          setUploadedImages([]);
+          console.warn("⚠️ 이미지 배열이 비어 있습니다.");
+        }
       } catch (error) {
         console.error("🚨 데이터 불러오기 실패:", error);
       }
@@ -145,38 +142,6 @@ const AdminDetail = () => {
   // 지도 컴포넌트도 임포트 해야 함
   // + 157번 줄 가보기
 
-  // const handleReject = () => {
-  //   const storedData = JSON.parse(localStorage.getItem("verificationData")) || [];
-  //   const updatedData = storedData.filter((_, index) => index !== parseInt(id));
-
-  //   localStorage.setItem("verificationData", JSON.stringify(updatedData));
-  //   navigate("/admin");
-  // };
-
-  // const handleAccept = () => {
-  //   console.log("🚀 인증 승인 데이터:", verificationData);
-  //   alert("인증이 승인되었습니다!");
-  //   navigate("/admin");
-  // };
-
-  // if (!verificationData) {
-  //   return <p>데이터를 불러오는 중...</p>;
-  // }
-
-  // ✅ 승인 및 거절 함수
-  // const handleReject = () => {
-  //   alert("인증이 거절되었습니다!");
-  //   navigate("/admin");
-  // };
-
-  // const handleAccept = () => {
-  //   alert("인증이 승인되었습니다!");
-  //   navigate("/admin");
-  // };
-
-  // if (!verificationData) {
-  //   return <p>데이터를 불러오는 중...</p>;
-  // }
   // ✅ 인증 승인 함수 (PENDING → APPROVED + 자동 삭제)
   const handleAccept = async () => {
     try {
@@ -189,7 +154,6 @@ const AdminDetail = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // verificationId: Number(id),
           verificationId: numericId, // ✅ 숫자 타입으로 전달
           adminUserId: "root",
           status: "APPROVED",
@@ -200,13 +164,12 @@ const AdminDetail = () => {
 
       alert("인증이 승인되었습니다!");
 
-      const deleteResponse = await fetch(`${API_BASE_URL}/api/admin/verification/approve`, {
+      const deleteResponse = await fetch(`${API_BASE_URL}/api/admin/verification`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // verificationId: Number(id),
           verificationId: numericId, // ✅ 숫자 타입으로 전달
           adminUserId: "root",
         }),

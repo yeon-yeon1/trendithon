@@ -7,7 +7,9 @@ import Reward from "./mypage/Reward";
 import Login from "./user/Login";
 import { AuthProvider } from "./context/AuthContext";
 import Join from "./user/Join";
-import Welcome from "./user/Welcome";
+import Welcome from "./user/splash/Welcome";
+import SplashReference from "./user/splash/SplashReference";
+import Splash1 from "./user/splash/Splash1";
 import Community from "./community/Community";
 import Write from "./community/Write";
 import Map from "./map/map";
@@ -16,11 +18,11 @@ import Guide from "./map/guide";
 import GlobalStyle from "./GlobalStyle"; // 🔹 전역 스타일 파일 불러오기
 import Admin from "./map/Admin";
 import AdminDetail from "./map/AdminDetail";
+import DetailCourse from "./home/DetailCourse";
+import PostDetail from "./community/PostDetail";
 
 // 참고용 페이지(지도나 가이드페이지)들 경로 설정 해놓음. 추후 삭제
 import MapReference from "./Extra/MapReference";
-import SplashReference from "./Extra/SplashReference";
-import PostDetail from "./community/PostDetail";
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/home" element={<Home />} />
+            <Route path="/coursedetail" element={<DetailCourse />} />
 
             {/* 마이페이지 관련 경로 */}
             <Route path="/mypage" element={<MyPage />} />
@@ -42,6 +45,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/welcome" element={<Welcome />} />
+            <Route path="/splash" element={<Splash1 />} />
+            <Route path="/rs" element={<SplashReference />} />
 
             {/* 지도 관련 경로 */}
             <Route path="/plogging" element={<Map />} />
@@ -57,7 +62,6 @@ function App() {
 
             {/* 참고용 페이지(삭제 예정) */}
             <Route path="/rm" element={<MapReference />} />
-            <Route path="/rs" element={<SplashReference />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
