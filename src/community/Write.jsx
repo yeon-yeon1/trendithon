@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as W from "../community/styledWrite";
-// import * as H from "../home/styledHome";
 import * as C from "../community/styledCommunity";
 import * as J from "../user/styledJoin";
 import Footer from "../components/Footer";
@@ -16,13 +15,7 @@ const Write = () => {
     const [text, setText] = useState("");
     const imageInputRef = useRef(null); // input 요소를 직접 참조
     const { user } = useAuth(); // ☑️ 진경 추가 부분
-
-    // const menuItems = [
-    //     { Icon: H.HomeIcon, path: "/home" },
-    //     { Icon: H.CommuIcon, path: "/community" },
-    //     { Icon: H.FlagIcon, path: "/plogging" },
-    //     { Icon: H.MyPageIcon, path: "/mypage" },
-    // ];
+    const [locationInput, setLocationInput] = useState("");
 
     const formattedDate = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
 
@@ -39,6 +32,14 @@ const Write = () => {
         }
     };
 
+    const handleChangeLocation = (e) => {
+        setLocationInput(e.target.value);
+    };
+
+    const handleSubmit = () => {
+
+    }
+
     const textCount = (e) => {
         setText(e.target.value);
     };
@@ -51,9 +52,9 @@ const Write = () => {
         
         const parsedUser = typeof user === "string" ? JSON.parse(user) : user;
         const formData = new FormData();
-        formData.append("post", new Blob([JSON.stringify({ content: text, location: "서울", userId: parsedUser.userId  })], { type: "application/json" }));
+        formData.append("post", new Blob([JSON.stringify({ content: text, location: locationInput, userId: parsedUser.userId })], { type: "application/json" }));
         // formData.append("post", JSON.stringify({ content: text, location: "서울", userId: user.userId }));
-        console.log("🔍 현재 로그인한 사용자:", user); // ☑️ 진경 추가 부분
+        // console.log("🔍 현재 로그인한 사용자:", user); // ☑️ 진경 추가 부분
 
         // const file = image_input.current?.files?.[0];
         const file = imageInputRef.current?.files?.[0]; // input 요소에서 직접 파일 참조
@@ -66,6 +67,9 @@ const Write = () => {
             await axios.post("http://3.34.183.9:8080/api/posts", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
+
+            // 위치를 로컬 스토리지에 저장
+            localStorage.setItem("location", JSON.stringify(locationInput));
 
             alert("게시글이 등록되었습니다.");
             navigate('/community');
@@ -91,7 +95,7 @@ const Write = () => {
                     <W.CalendarIcon src="/images/CalendarIcon.svg" />
                 </W.DateBox>
 
-                <W.PositionBox placeholder="위치를 소개해 주세요" />
+                <W.PositionBox value={locationInput} onChange={handleChangeLocation} placeholder="위치를 소개해 주세요" />
                 
                 <label htmlFor="input_file">
                     <W.ImageFile ref={image_input}>
@@ -110,13 +114,6 @@ const Write = () => {
                 <W.UploadButton onClick={uploadPost}>업로드 하기</W.UploadButton>
             </C.Container>
 
-            {/* <H.Footer>
-                {menuItems.map((item, index) => (
-                <H.NavItem key={index} onClick={() => navigate(item.path)}>
-                    <item.Icon />
-                </H.NavItem>
-                ))}
-            </H.Footer> */}
             <Footer />
         </>
     );
