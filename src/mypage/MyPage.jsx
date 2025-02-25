@@ -123,7 +123,8 @@ const MyPage = () => {
 
   return (
     <>
-      <S.Container onClick={() => isExpanded && setIsExpanded(false)}>
+      <S.Container>
+        {/* <S.Container onClick={() => isExpanded && setIsExpanded(false)}> */}
         <S.Header>
           <S.BackButton onClick={() => navigate("/home")} />
           <S.Title>마이페이지</S.Title>
@@ -139,12 +140,13 @@ const MyPage = () => {
           </S.Points>
         </S.ProfileCard>
         {isExpanded && (
-          <S.ExpandMenu
-            onClick={(e) => {
-              e.stopPropagation(); // ✅ 메뉴 아이콘 클릭 시 메뉴가 닫히지 않게 함
-              setIsExpanded((prev) => !prev);
-            }}
-          >
+          // <S.ExpandMenu
+          //   onClick={(e) => {
+          //     e.stopPropagation(); // ✅ 메뉴 아이콘 클릭 시 메뉴가 닫히지 않게 함
+          //     setIsExpanded((prev) => !prev);
+          //   }}
+          // >
+          <S.ExpandMenu>
             <S.ExpandItem onClick={goToCorrectPage}>회원 정보 수정하기</S.ExpandItem>
             <S.ExpandItem>
               <input
