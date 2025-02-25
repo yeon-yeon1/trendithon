@@ -31,19 +31,16 @@ const PostDetail = () => {
     }
   };
 
-  // 댓글 목록 조회
-  const getComments = async () => {
-    try {
-      //   const response = await axios.get("http://3.34.183.9:8080/api/comments", {
-      //     params: { postId: parseInt(id, 10) },
-      //   });
-      const response = await axios.get(`http://3.34.183.9:8080/api/comments/${parseInt(id, 10)}`);
-      console.log("댓글 조회 성공:", response.data);
-      setComments(response.data);
-    } catch (error) {
-      console.log("댓글 조회 실패", error.response?.data || error);
-    }
-  };
+    // 댓글 목록 조회
+    const getComments = async () => {
+        try {
+            const response = await axios.get(`http://3.34.183.9:8080/api/comments/${parseInt(id, 10)}`);
+            console.log("댓글 조회 성공:", response.data);
+            setComments(response.data);
+        } catch (error) {
+            console.log("댓글 조회 실패", error.response?.data || error);
+        }
+    };
 
   // 댓글 입력
   const handleCommentChange = (e) => {
@@ -78,62 +75,61 @@ const PostDetail = () => {
           <P.PostDetailTitle>커뮤니티 상세</P.PostDetailTitle>
         </C.JoinHeader>
 
-        {/* 커뮤니티 상세 조회 */}
-        <div>
-          {loading ? (
-            <p>loading...</p>
-          ) : (
-            <Post
-              id={post.id}
-              content={post.content}
-              location={post.location}
-              imageUrl={post.imageUrl}
-              likeCount={post.likeCount}
-              createdAt={post.createdAt}
-              userId={post.userId}
-              isLiked={post.isLiked || false} // 기본값 false
-              petName={post.petName}
-            />
-          )}
-        </div>
+                {/* 커뮤니티 상세 조회 */}
+                <div>
+                    {loading ? (
+                        <p>loading...</p>
+                    ) : (
+                        <Post
+                            id={post.id}
+                            content={post.content}
+                            location={post.location}
+                            imageUrl={post.imageUrl}
+                            likeCount={post.likeCount}
+                            createdAt={post.createdAt}
+                            userId={post.userId}
+                            isLiked={post.isLiked || false} // 기본값 false
+                            petName={post.petName}
+                            commentCount={comments.length}
+                        />
+                    )}
+                </div>
 
-        {/* 댓글 목록 출력 */}
-        <P.CommentList>
-          {comments.length > 0 ? (
-            comments.map((comment, index) => (
-              <P.CommentItem key={index}>
-                <P.CommentAuthor>{comment.petName}</P.CommentAuthor>
-                <P.CommentText>{comment.comment}</P.CommentText>
-              </P.CommentItem>
-            ))
-          ) : (
-            <p
-              style={{
-                color: "#AAA",
-                fontFamily: "Inter",
-                fontSize: "12px",
-                fontStyle: "normal",
-                fontWeight: "600",
-                lineHeight: "normal",
-              }}
-            >
-              아직 댓글이 없습니다
-            </p>
-          )}
-        </P.CommentList>
-
-        {/* 댓글 입력창 */}
-        <P.CommentWrapper>
-          <P.CommentTextarea placeholder="댓글을 입력해 주세요" value={newComment} onChange={handleCommentChange} />
-          <P.CommentSendButton onClick={handleCommentSubmit} />
-        </P.CommentWrapper>
-
-        <Link to="/write">
-          <C.WriteIcon src="/images/WriteIcon.svg" />
-        </Link>
-      </C.Container>
-    </>
-  );
+                {/* 댓글 목록 출력 */}
+                <P.CommentList>
+                    {comments.length > 0 ? (
+                        comments.map((comment, index) => (
+                            <P.CommentItem key={index}>
+                                <C.CommuProfileImg src="/images/CommuProfileImg.svg" />
+                                <div style={{ marginRight: "auto" }}>
+                                    <P.CommentAuthor>{comment.petName}</P.CommentAuthor>
+                                    <P.CommentText>{comment.comment}</P.CommentText>
+                                </div>
+                            </P.CommentItem>
+                        ))
+                    ) : (
+                        <p style={{ color: "#AAA", fontFamily: "Inter", fontSize: "12px", fontStyle: "normal", fontWeight: "600", lineHeight: "normal", marginTop: "22px", marginLeft: "143px" }}>
+                            아직 댓글이 없습니다
+                        </p>
+                    )}
+                    
+                    {/* 댓글 입력창 */}
+                    <P.CommentWrapper>
+                        <P.CommentTextarea
+                            placeholder="댓글을 입력해 주세요"
+                            value={newComment}
+                            onChange={handleCommentChange}
+                        />
+                        <P.CommentSendButton onClick={handleCommentSubmit} />
+                    </P.CommentWrapper>
+                </P.CommentList>
+                
+                <Link to="/write">
+                    <C.WriteIcon src="/images/WriteIcon.svg"/>
+                </Link>
+            </C.Container>
+        </>
+    );
 };
 
 export default PostDetail;

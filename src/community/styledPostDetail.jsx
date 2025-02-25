@@ -12,19 +12,43 @@ export const PostDetailTitle = styled.div`
 `;
 
 export const CommentList = styled.div`
-    
+    width: 393px;
+    height: auto;
+    background: #FFF;
+    display: flex;
+    margin-top: 15px;
+    flex-direction: column;
 `;
 
 export const CommentItem = styled.div`
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 11px 23px;
+    border-bottom: 1px solid #E3E3E3;
 `;
 
 export const CommentAuthor = styled.p`
-    
+    color: #000;
+    font-family: "Pretendard Variable";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 17px; /* 113.333% */
+    margin: 0;
+    margin-left: 16px;
+    margin-bottom: 6px;
 `;
 
 export const CommentText = styled.p`
-
+    color: #000;
+    font-family: "Pretendard Variable";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    margin-left: 15px;
 `;
 
 export const CommentWrapper = styled.div`

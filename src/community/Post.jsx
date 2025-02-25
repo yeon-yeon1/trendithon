@@ -5,7 +5,7 @@ import OnLikeIcon from "../assets/OnLikeIcon.svg";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
-const Post = ({ id, content, location, imageUrl, likeCount, createdAt, userId, isLiked: initialIsLiked, petName }) => {
+const Post = ({ id, content, location, imageUrl, likeCount, createdAt, userId, isLiked: initialIsLiked, petName, commentCount }) => {
     const { user } = useAuth();
     const parsedUser = typeof user === "string" ? JSON.parse(user) : user;
     const [isLiked, setIsLiked] = useState(initialIsLiked);
@@ -59,6 +59,7 @@ const Post = ({ id, content, location, imageUrl, likeCount, createdAt, userId, i
                     <span style={{ color: "#000", fontFamily: "Pretendard Variable", fontSize: "12px", fontStyle: "normal", fontWeight: "700", lineHeight: "17px" }}>{likeCountState}</span>
                     <C.CommentIcon />
                     <span style={{ color: "#000", fontFamily: "Pretendard Variable", fontSize: "12px", fontStyle: "normal", fontWeight: "500", lineHeight: "17px" }}>댓글&nbsp;</span>
+                    <span style={{ color: "#000", fontFamily: "Pretendard Variable", fontSize: "12px", fontStyle: "normal", fontWeight: "700", lineHeight: "17px" }}>{commentCount}</span>
                 </C.PostInfo> 
             </C.PostItem>
         </>
