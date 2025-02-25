@@ -25,25 +25,42 @@ const MyPage = () => {
           return;
         }
 
-        const response = await fetch(`${API_BASE_URL}/api/mypage?userId=${parsedUser.userId}`, {
+        // 📌 마이페이지 기본 데이터 가져오기
+        const response1 = await fetch(`${API_BASE_URL}/api/mypage?userId=${parsedUser.userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+        if (!response1.ok) {
+          throw new Error(`HTTP 오류! 상태 코드: ${response1.status}`);
         }
 
-        const data = await response.json();
-        console.log("📌 MyPage 데이터:", data);
+        const data1 = await response1.json();
 
-        setPoint(data.point);
-        setPetName(data.petName);
-        setProfileImg(data.profileImg || "/images/defaultPet.svg");
+        setPoint(data1.point);
+        setPetName(data1.petName);
+        setProfileImg(data1.profileImg || "/images/defaultPet.svg");
+
+        // 📌 멍로깅 기록 가져오기 (연동 변경됨)
+        const response2 = await fetch(`${API_BASE_URL}/api/verification/user/${parsedUser.userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response2.ok) {
+          throw new Error(`HTTP 오류! 상태 코드: ${response2.status}`);
+        }
+
+        const data2 = await response2.json();
+
+        // logs 상태에 데이터 설정
+        setLogs(data2);
       } catch (error) {
-        console.error("❌ MyPage 데이터 로딩 오류:", error.message);
+        console.error("❌ 데이터 로딩 오류:", error.message);
       }
     };
 
@@ -99,9 +116,14 @@ const MyPage = () => {
     }
   };
 
+  // 📌 클릭 시 MyRecord 페이지로 이동
+  const handleCourseClick = (verificationId) => {
+    navigate(`/record/${verificationId}`); // URL에 verificationId 추가
+  };
+
   return (
     <>
-      <S.Container>
+      <S.Container onClick={() => isExpanded && setIsExpanded(false)}>
         <S.Header>
           <S.BackButton onClick={() => navigate("/home")} />
           <S.Title>마이페이지</S.Title>
@@ -117,7 +139,12 @@ const MyPage = () => {
           </S.Points>
         </S.ProfileCard>
         {isExpanded && (
-          <S.ExpandMenu>
+          <S.ExpandMenu
+            onClick={(e) => {
+              e.stopPropagation(); // ✅ 메뉴 아이콘 클릭 시 메뉴가 닫히지 않게 함
+              setIsExpanded((prev) => !prev);
+            }}
+          >
             <S.ExpandItem onClick={goToCorrectPage}>회원 정보 수정하기</S.ExpandItem>
             <S.ExpandItem>
               <input
@@ -143,7 +170,7 @@ const MyPage = () => {
         </S.Tabs>
         <S.MapContainer>
           {logs.map((log) => (
-            <div key={log.verificationId}>
+            <div key={log.verificationId} onClick={() => handleCourseClick(log.verificationId)}>
               <S.RecordDate>{log.date}</S.RecordDate>
               <S.MapImage src={log.uploadedImages[0] || "/images/exMap1.svg"} alt="Map" />
               <S.RecordTitle>{log.courseName}</S.RecordTitle>

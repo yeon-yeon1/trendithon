@@ -20,6 +20,9 @@ import Admin from "./map/Admin";
 import AdminDetail from "./map/AdminDetail";
 import DetailCourse from "./home/DetailCourse";
 import PostDetail from "./community/PostDetail";
+import MyRecord from "./mypage/MyRecord";
+import MyRecordEdit from "./mypage/MyRecordEdit";
+import Recommend from "./mypage/Recommend";
 
 function App() {
   return (
@@ -37,6 +40,9 @@ function App() {
             <Route path="/mypage2" element={<MyPage2 />} />
             <Route path="/correct" element={<Correct />} />
             <Route path="/reward" element={<Reward />} />
+            <Route path="/record/:id" element={<MyRecord />} />
+            <Route path="/record/:id/edit" element={<MyRecordEdit />} />
+            <Route path="/record/:id/recommend" element={<Recommend />} />
 
             {/* 유저 관련 경로 */}
             <Route path="/login" element={<Login />} />

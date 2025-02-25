@@ -106,27 +106,6 @@ export const BoldText = styled.span`
   font-weight: 700;
 `;
 
-// 캐러셀 컨테이너
-// export const CarouselWrapper = styled.div`
-//   padding: 0 20px;
-//   overflow-x: auto;
-//   scroll-snap-type: x mandatory;
-//   white-space: nowrap;
-
-//   &.plogging-carousel .slick-list {
-//     // overflow: visible !important;
-//     overflow-x: auto !important; // ✅ 가로 스크롤 가능하게 수정
-//     overflow-y: hidden;
-//     scroll-snap-type: x mandatory;
-//     -webkit-overflow-scrolling: touch; // ✅ 터치스크롤 부드럽게
-//   }
-
-//   &.plogging-carousel .slick-track {
-//     display: flex;
-//     gap: 10px; /* 카드 간격 조정 */
-//   }
-// `;
-
 export const CarouselWrapper = styled.div`
   padding: 0 20px;
   overflow-x: auto; /* ✅ 가로 스크롤 활성화 */
@@ -155,6 +134,12 @@ export const DogCard = styled.div`
   margin-top: 20px;
   outline: none;
   cursor: pointer;
+
+  p {
+    margin: 10px 0;
+    justify-content: start;
+    display: flex;
+  }
 `;
 
 // 강아지 이미지 스타일

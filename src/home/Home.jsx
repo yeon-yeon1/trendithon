@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import * as H from "../home/styledHome";
-import * as F from "../components/FooterStyled"; // ✅ 기존 스타일 재사용
 import Footer from "../components/Footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -13,6 +12,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [dogImages, setDogImages] = useState([]);
   const [ploggingCourses, setPloggingCourses] = useState([]); // 플로깅 코스 데이터를 저장할 상태
+  const [captureImages, setCaptureImages] = useState({}); // ✅ verificationId별 captureImage 저장
 
   const goCommunity = () => {
     navigate("/community"); // /community 페이지로 이동
@@ -36,7 +36,7 @@ const Home = () => {
     fetchDogImages();
   }, []);
 
-  // 플로깅 추천 코스 데이터 불러오기
+  // ✅ 첫 번째 GET 요청: 플로깅 추천 코스 목록 가져오기
   useEffect(() => {
     const fetchPloggingCourses = async () => {
       try {
@@ -46,6 +46,11 @@ const Home = () => {
         }
         const data = await response.json();
         setPloggingCourses(data);
+
+        // ✅ 두 번째 GET 요청: 각 verificationId로 captureImage 가져오기
+        data.forEach((course) => {
+          fetchCaptureImage(course.verificationId);
+        });
       } catch (error) {
         console.error("❌ 플로깅 추천 코스 불러오기 실패:", error);
       }
@@ -53,6 +58,23 @@ const Home = () => {
 
     fetchPloggingCourses();
   }, []);
+
+  // ✅ 두 번째 GET 요청: captureImage 가져오기
+  const fetchCaptureImage = async (verificationId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/verification/recommend/${verificationId}`);
+      if (!response.ok) {
+        throw new Error(`플로깅 추천 이미지 불러오기 실패 (ID: ${verificationId})`);
+      }
+      const data = await response.json();
+      if (data.length > 0) {
+        // ✅ captureImage를 저장 (verificationId별로 저장)
+        setCaptureImages((prev) => ({ ...prev, [verificationId]: data[0].captureImage }));
+      }
+    } catch (error) {
+      console.error(`❌ 플로깅 추천 이미지 불러오기 실패 (ID: ${verificationId}):`, error);
+    }
+  };
 
   const settingsCourse = {
     infinite: false,
@@ -96,22 +118,24 @@ const Home = () => {
         </H.Text>
         <H.CarouselWrapper className="plogging-carousel">
           <Slider {...settingsCourse}>
-            {ploggingCourses.map((course, index) => (
-              <H.DogCard
-                key={index}
-                onClick={() => handleCourseClick(course.verificationId)} // 클릭 시 해당 ID로 이동
-              >
-                <H.DogImage
-                  style={{ width: "217px", height: "157px" }}
-                  src={course.uploadedImages[0]} // uploadedImages에서 첫 번째 이미지 사용
-                  alt={`course-${index}`}
-                />
-                <H.RegionText style={{ color: "black" }}>
-                  {course.courseName} {/* courseName을 표시 */}
-                </H.RegionText>
-                <H.PloggingLocation>{course.date}</H.PloggingLocation> {/* date를 표시 */}
-              </H.DogCard>
-            ))}
+            {ploggingCourses
+              .filter((course) => captureImages[course.verificationId]) // ✅ 이미지가 있는 코스만 표시
+              .map((course, index) => (
+                <H.DogCard
+                  key={index}
+                  onClick={() => handleCourseClick(course.verificationId)} // 클릭 시 해당 ID로 이동
+                >
+                  <H.DogImage
+                    style={{ width: "217px", height: "157px" }}
+                    src={captureImages[course.verificationId]} // ✅ 이미지가 있는 경우에만 표시
+                    alt={`course-${index}`}
+                  />
+                  <H.RegionText style={{ color: "black" }}>
+                    {course.courseName} {/* courseName을 표시 */}
+                  </H.RegionText>
+                  <H.PloggingLocation>{course.date}</H.PloggingLocation> {/* date를 표시 */}
+                </H.DogCard>
+              ))}
           </Slider>
         </H.CarouselWrapper>
 

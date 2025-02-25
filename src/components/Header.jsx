@@ -13,6 +13,12 @@ const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel, petName }) =>
   const isAdmin = location.pathname === "/admin";
   const isAdminDetail = location.pathname.startsWith("/admin/detail/"); // ✅ 관리자 상세 페이지
   const isJoin = location.pathname === "/join";
+  const isEdit = location.pathname.endsWith("/edit");
+  const isRecommend = location.pathname.endsWith("/recommend");
+  const isRecord =
+    location.pathname.startsWith("/record/") &&
+    !location.pathname.endsWith("/edit") &&
+    !location.pathname.endsWith("/recommend");
 
   //레퍼런스때문에 추가
   const isMR = location.pathname === "/rm";
@@ -30,12 +36,23 @@ const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel, petName }) =>
 
     //레퍼런스때문에 추가
     if (path.startsWith("/coursedetail/")) return `${petName} 멍로깅`;
+    if (path.endsWith("/edit")) return "나의 멍로깅 기록 수정";
+    if (path.endsWith("/recommend")) return "추천 페이지";
+    if (path.startsWith("/record/")) return `나의 멍로깅 기록`;
 
     return "";
   };
 
   return (
-    <H.Header isPlogging={isPlogging} isAdmin={isAdmin} isAdminDetail={isAdminDetail} isJoin={isJoin} isMR={isMR}>
+    <H.Header
+      isPlogging={isPlogging}
+      isAdmin={isAdmin}
+      isAdminDetail={isAdminDetail}
+      isJoin={isJoin}
+      isRecord={isRecord}
+      isEdit={isEdit}
+      isRecommend={isRecommend}
+    >
       {/* ✅ isPlogging prop 전달 */}
       <H.BackButton
         isAdmin={isAdmin}
@@ -44,6 +61,8 @@ const Header = ({ searchQuery, setSearchQuery, onSearch, onCancel, petName }) =>
             onCancel();
           } else if (isJoin) {
             navigate("/login");
+          } else if (isRecord) {
+            navigate("/mypage");
           } else {
             navigate(-1);
           }

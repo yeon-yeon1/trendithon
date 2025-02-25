@@ -184,6 +184,7 @@ export const MapContainer = styled.div`
   background: #e9f3f3;
   flex-shrink: 0;
   padding: 10px;
+  padding-bottom: 100px;
 `;
 
 export const MapImage = styled.img`

@@ -171,6 +171,7 @@ export const MapContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px 15px; // 여백을 주어 요소들이 아래로 쌓일 수 있도록
+  padding-bottom: 100px;
 `;
 
 // RecordDate, MapImage, RecordTitle 수정

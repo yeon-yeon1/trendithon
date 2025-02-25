@@ -88,10 +88,22 @@ export const Header = styled.div.withConfig({
   `}
 
   // 레퍼런스 헤더 설정 
-        ${({ isMR }) =>
-    isMR &&
+        ${({ isRecord }) =>
+    isRecord &&
     `
-    gap: 89px;
+    gap: 75px;
+  `}
+
+          ${({ isEdit }) =>
+    isEdit &&
+    `
+    gap: 63px;
+  `}
+
+          ${({ isRecommend }) =>
+    isRecommend &&
+    `
+    gap: 95px;
   `}
 `;
 
